@@ -5,17 +5,17 @@ import java.util.HashMap;
 
 public class Stock {
     private String name;
-    private double value;
+    private double totalValue;
     private Integer quantity;
     private HashMap<Integer, Double> valueTracker;
 
     public Stock(String name, Double value, Integer day, Integer quantity) {
         this.name = name;
-        this.value = value * quantity;
+        this.totalValue = value * quantity;
         this.quantity = quantity;
         valueTracker = new HashMap<>();
 
-        valueTracker.put(day, this.value);
+        valueTracker.put(day, this.totalValue);
     }
 
     public void adjustStockQuantity(int adjustment) {
@@ -26,8 +26,8 @@ public class Stock {
         return name;
     }
 
-    public double getStockValue() {
-        return value;
+    public double getTotalValue() {
+        return totalValue;
     }
 
     public int getQuantityOfStock() {

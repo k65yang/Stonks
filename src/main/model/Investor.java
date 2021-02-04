@@ -31,7 +31,6 @@ public class Investor {
     public void addPortfolio(String name, double transferFunds) {
         Portfolio toAdd  = new Portfolio(name, transferFunds);
         portfolioMap.put(name, toAdd);
-//        portfolioList.add(toAdd);
         funds -= transferFunds;
     }
 
@@ -40,21 +39,12 @@ public class Investor {
     // EFFECTS: deletes specified portfolio from the investor and adds the portfolio
     //          funds back to the investor's total funds
     public void removePortfolio(String name) {
+        funds += portfolioMap.get(name).getPortfolioFunds();
         portfolioMap.remove(name);
-//        for (Portfolio p : portfolioList) {
-//            if (p.getPorfolioName() == name) {
-//                funds += p.getPortfolioFunds();
-//                portfolioList.remove(p);
-//                break;
-//            }
-//        }
     }
 
-//    public void updatePortfolio(StockMarket sm) {
-//        for
-//    }
 
-    public String getInvestorname() {
+    public String getInvestorName() {
         return name;
     }
 
@@ -62,9 +52,7 @@ public class Investor {
         return funds;
     }
 
-    public void getAllPortfolios() {
-        for (String p : portfolioMap.keySet()) {
-            System.out.println("Portfolio Name: " + p);
-        }
+    public HashMap<String, Portfolio> getPortfolioMap() {
+        return portfolioMap;
     }
 }
