@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,8 +41,8 @@ public class StockMarketTest {
 
     @Test
     public void testStockPriceTrackerInitialization() {
-        assertEquals(sm.getStockHistory("GME").size(), 1);
-        assertEquals(sm.getStockHistory("GME").get(0), 325.00);
+        assertEquals(sm.getAllStockHistory("GME").size(), 1);
+        assertEquals(sm.getAllStockHistory("GME").get(0), 325.00);
     }
 
     @Test
@@ -61,10 +62,33 @@ public class StockMarketTest {
 
     @Test
     public void testUpdateStockPrice() {
-        for (String stock : sm.getStockList()) {
-            System.out.println("Stock: " + stock + " Price: " + sm.getStockValue(stock));
-        }
+        Double gmeDay0 = sm.getStockValue("GME");
         sm.updateStockPrice(1);
+
+        Double gmeDay1 = sm.getStockValue("GME");
+        sm.updateStockPrice(1);
+
+        Double gmeDay2 = sm.getStockValue("GME");
+        sm.updateStockPrice(5);
+
+        Double gmeDay7 = sm.getStockValue("GME");
+
+        assertNotEquals(gmeDay1, gmeDay7);
+        assertNotEquals(gmeDay2, gmeDay7);
+
+        assertEquals(sm.getDay(), 7);
+
+        ArrayList<Double> gmeHistory = sm.getAllStockHistory("GME");
+//        for (double d : gmeHistory) {
+//            System.out.println(d);
+//        }
+
+        assertEquals(gmeHistory.size(), 8);
+        assertEquals(gmeHistory.get(0), gmeDay0);
+        assertEquals(gmeHistory.get(1), gmeDay1);
+        assertEquals(gmeHistory.get(2), gmeDay2);
+        assertEquals(gmeHistory.get(7), gmeDay7);
+
     }
 }
 

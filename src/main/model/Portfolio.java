@@ -111,6 +111,16 @@ public class Portfolio {
         addStock(sm, toTransfer, quantityToTransfer);
     }
 
+    public void updateStocks(StockMarket sm) {
+        for (Stock s : stockMap.values()) {
+            s.updatePrices(sm);
+        }
+    }
+
+    public boolean isStockInPortfolio(String stock) {
+        return stockMap.containsKey(stock);
+    }
+
     public String getPortfolioName() {
         return name;
     }

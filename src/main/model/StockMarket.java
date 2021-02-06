@@ -45,15 +45,14 @@ public class StockMarket {
     // REQUIRES: days > 0
     // MODIFIES: this
     // EFFECTS: simulates daily market changes in the stock prices
-    // !!! Need to update stockPriceTracker
     public void updateStockPrice(int days) {
         // stock price simulated by a random increase or decrease [-5, 5](%)
         // of existing stock price
         dayInGameTime += days;
         while (days > 0) {
             for (String stock : stockMarket.keySet()) {
-                Double multiplier = (Math.random() * 0.1) + 0.95;
-                Double newStockVal = (double) stockMarket.get(stock) * multiplier;
+                double multiplier = (Math.random() * 0.1) + 0.95;
+                Double newStockVal = stockMarket.get(stock) * multiplier;
                 stockMarket.put(stock, newStockVal);
 
                 ArrayList<Double> priceTrackOfStock = stockPriceTracker.get(stock);
@@ -81,7 +80,7 @@ public class StockMarket {
         return stockMarket.get(stock);
     }
 
-    public ArrayList<Double> getStockHistory(String stock) {
+    public ArrayList<Double> getAllStockHistory(String stock) {
         return stockPriceTracker.get(stock);
     }
 

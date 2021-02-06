@@ -21,6 +21,27 @@ public class InvestorTest {
     }
 
     @Test
+    public void testSetActivePortfolios() {
+        i.addPortfolio("Stonks", 10000);
+        i.addPortfolio("Moon", 1);
+
+        i.setActivePortfolio("Stonks");
+        Portfolio p = i.getActivePortfolio();
+
+        assertEquals(p.getPortfolioName(), "Stonks");
+        assertEquals(p.getPortfolioFunds(), 10000);
+
+        i.unsetActivePortfolio();
+        assertNull(i.getActivePortfolio());
+
+        i.setActivePortfolio("Moon");
+        p = i.getActivePortfolio();
+
+        assertEquals(p.getPortfolioName(), "Moon");
+        assertEquals(p.getPortfolioFunds(), 1);
+    }
+
+    @Test
     public void testAddAndRemovePortfolio() {
         i.addPortfolio("Long-term",5000);
 

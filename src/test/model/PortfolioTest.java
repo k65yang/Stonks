@@ -40,6 +40,13 @@ public class PortfolioTest {
     }
 
     @Test
+    public void testContainsStock() {
+        p.buyStock(sm, "GME", 3);
+        assertTrue(p.isStockInPortfolio("GME"));
+        assertFalse(p.isStockInPortfolio("asfd"));
+    }
+
+    @Test
     public void testBuySameStockTwice() {
         p.buyStock(sm, "GME", 3);
         assertEquals(p.getPortfolioMap().size(), 1);

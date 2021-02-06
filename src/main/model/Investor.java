@@ -11,6 +11,7 @@ public class Investor {
     private double funds;
     private List<Portfolio> portfolioList;
     private HashMap<String, Portfolio> portfolioMap;
+    private Portfolio activePortfolio;
 
     // REQUIRES: funds > 0
     // MODIFIES: this
@@ -43,6 +44,20 @@ public class Investor {
         portfolioMap.remove(name);
     }
 
+    public void setActivePortfolio(String name) {
+        activePortfolio = portfolioMap.get(name);
+    }
+
+    public void unsetActivePortfolio() {
+        activePortfolio = null;
+    }
+
+    public void updateAllPortfolios(StockMarket sm) {
+        for (Portfolio p : portfolioMap.values()) {
+            p.updateStocks(sm);
+        }
+    }
+
 
     public String getInvestorName() {
         return name;
@@ -50,6 +65,10 @@ public class Investor {
 
     public double getInvestorFunds() {
         return funds;
+    }
+
+    public Portfolio getActivePortfolio() {
+        return activePortfolio;
     }
 
     public HashMap<String, Portfolio> getPortfolioMap() {

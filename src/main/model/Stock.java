@@ -22,6 +22,12 @@ public class Stock {
         quantity += adjustment;
     }
 
+    public void updatePrices(StockMarket stockMarket) {
+        double stockPricePerUnit = stockMarket.getStockValue(this.name);
+        totalValue = stockPricePerUnit * quantity;
+        valueTracker.put(stockMarket.getDay(), totalValue);
+    }
+
     public String getStockName() {
         return name;
     }
@@ -32,6 +38,10 @@ public class Stock {
 
     public int getQuantityOfStock() {
         return quantity;
+    }
+
+    public HashMap<Integer, Double> getValueTracker() {
+        return valueTracker;
     }
 
 }
