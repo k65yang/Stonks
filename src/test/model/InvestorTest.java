@@ -54,4 +54,17 @@ public class InvestorTest {
         assertEquals(i.getInvestorFunds(), 10000);
         assertTrue(i.getPortfolioMap().isEmpty());
     }
+
+    @Test
+    public void testAddFundsToExistingPorfolio() {
+        i.addPortfolio("Long-term",5000);
+
+        assertEquals(i.getInvestorFunds(), 5000);
+        assertTrue(i.getPortfolioMap().containsKey("Long-term"));
+        assertEquals(i.getPortfolioMap().size(), 1);
+
+        i.addFundsToPortfolio("Long-term", 5);
+
+        assertEquals(i.getPortfolioMap().get("Long-term").getPortfolioFunds(), 5005);
+    }
 }

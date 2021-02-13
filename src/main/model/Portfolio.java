@@ -115,10 +115,20 @@ public class Portfolio {
         for (Stock s : stockMap.values()) {
             s.updatePrices(sm);
         }
+
+        netWorth = 0;
+        for (Stock s : getPortfolioMap().values()) {
+            double stockValue = s.getTotalValue();
+            netWorth += stockValue;
+        }
     }
 
     public boolean isStockInPortfolio(String stock) {
         return stockMap.containsKey(stock);
+    }
+
+    public void addFunds(double amount) {
+        funds += amount;
     }
 
     public String getPortfolioName() {

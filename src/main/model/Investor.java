@@ -35,6 +35,11 @@ public class Investor {
         funds -= transferFunds;
     }
 
+    public void addFundsToPortfolio(String name, double funds) {
+        Portfolio toAdd = portfolioMap.get(name);
+        toAdd.addFunds(funds);
+    }
+
     // REQUIRES: the portfolio must be empty (ie. have no stocks)
     // MODIFIES: this
     // EFFECTS: deletes specified portfolio from the investor and adds the portfolio

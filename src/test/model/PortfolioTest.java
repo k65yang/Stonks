@@ -179,4 +179,11 @@ public class PortfolioTest {
         assertEquals(p.getPortfolioMap().size(), 1);
         assertTrue(p.getPortfolioMap().containsKey("NVDA"));
     }
+
+    @Test
+    public void testAddFunds() {
+        p.addFunds(1000);
+
+        assertEquals(p.getPortfolioFunds(), 11000);
+    }
 }
