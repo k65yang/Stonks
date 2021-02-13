@@ -1,13 +1,14 @@
 package model;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
+// Represents a stock market with various stocks that fluctuate randomly in price
 public class StockMarket {
-    private Integer dayInGameTime;
-    private HashMap<String, Double> stockMarket; // hashmap represents the stock and its values
-    private HashMap<String, ArrayList<Double>> stockPriceTracker;
+    private Integer dayInGameTime;                                 // the day in game time,
+    private HashMap<String, Double> stockMarket;                   // hashmap represents the stock and its values
+    private HashMap<String, ArrayList<Double>> stockPriceTracker;  // keeps track of the daily prices of each stock
 
+    // EFFECTS: constructs a stock market
     public StockMarket() {
         dayInGameTime = 0;
         stockMarket = new HashMap<>();
@@ -17,9 +18,9 @@ public class StockMarket {
         initializeStockPriceTracker();
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds ten stocks to the stock market
     private void initializeMarket() {
-
-        // stockMarket automatically initialized with a set number of stocks
         stockMarket.put("MMM", 175.66);
         stockMarket.put("AMC", 13.26);
         stockMarket.put("GME", 325.00);
@@ -29,12 +30,13 @@ public class StockMarket {
         stockMarket.put("AAPL", 131.96);
         stockMarket.put("TSLA", 793.53);
         stockMarket.put("PHUN", 2.08);
+        stockMarket.put("TEST", 100.00);
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes empty array lists for each stock in the stock market to
+    //          store the prices for each stock and adds the initial price to each stock
     private void initializeStockPriceTracker() {
-
-        // stockPriceTracker initialized with individual lists for each of the
-        // existing stock, which has the initial prices for each stock
         for (String stock : stockMarket.keySet()) {
             ArrayList<Double> toAdd = new ArrayList<>();
             toAdd.add(stockMarket.get(stock));
@@ -44,14 +46,13 @@ public class StockMarket {
 
     // REQUIRES: days > 0
     // MODIFIES: this
-    // EFFECTS: simulates daily market changes in the stock prices
+    // EFFECTS: simulates daily market changes in the stock prices; the stock price is
+    //          randomly increased or decrease [-5, 10] (%)
     public void updateStockPrice(int days) {
-        // stock price simulated by a random increase or decrease [-5, 5](%)
-        // of existing stock price
         dayInGameTime += days;
         while (days > 0) {
             for (String stock : stockMarket.keySet()) {
-                double multiplier = (Math.random() * 0.1) + 0.95;
+                double multiplier = (Math.random() * 0.15) + 0.95;
                 Double newStockVal = stockMarket.get(stock) * multiplier;
                 stockMarket.put(stock, newStockVal);
 
@@ -65,25 +66,31 @@ public class StockMarket {
 
     }
 
+    // EFFECTS: returns the a list of all the stocks in the market, sorted alphabetically
     public List<String> getStockList() {
         List<String> stockList = new ArrayList<>(stockMarket.keySet());
         Collections.sort(stockList);
         return stockList;
     }
 
+    // EFFECTS: returns true if the stock is in the stock market
     public boolean containsStock(String stock) {
         return stockMarket.containsKey(stock);
     }
 
     // REQUIRES: an existing stock ticker in the stock market
+    // EFFECTS: returns the current value of the stock
     public Double getStockValue(String stock) {
         return stockMarket.get(stock);
     }
 
+    // REQUIRES: an existing stock ticker in the stock market
+    // EFFECTS: returns the price history of the stock
     public ArrayList<Double> getAllStockHistory(String stock) {
         return stockPriceTracker.get(stock);
     }
 
+    // EFFECTS: returns the day in the stock market
     public int getDay() {
         return dayInGameTime;
     }

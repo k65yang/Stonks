@@ -1,7 +1,5 @@
 package model;
 
-import javax.sound.sampled.Port;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,19 +23,22 @@ public class Investor {
     }
 
     // REQUIRES: name must be unique and not used for another portfolio
-    //           cannot transfer more money to the portfolio than the person
-    //           already has
+    //           addFunds < funds
     // MODIFIES: this
     // EFFECTS: adds a portfolio from the person
-    public void addPortfolio(String name, double transferFunds) {
-        Portfolio toAdd  = new Portfolio(name, transferFunds);
+    public void addPortfolio(String name, double addFunds) {
+        Portfolio toAdd  = new Portfolio(name, addFunds);
         portfolioMap.put(name, toAdd);
-        funds -= transferFunds;
+        funds -= addFunds;
     }
 
-    public void addFundsToPortfolio(String name, double funds) {
+    // REQUIRES: name must be a portfolio that exists
+    //           amount > 0
+    // MODIFIES: this
+    // EFFECTS: increases the funds to the specified portfolio by a amount
+    public void addFundsToPortfolio(String name, double amount) {
         Portfolio toAdd = portfolioMap.get(name);
-        toAdd.addFunds(funds);
+        toAdd.addFunds(amount);
     }
 
     // REQUIRES: the portfolio must be empty (ie. have no stocks)
@@ -49,14 +50,20 @@ public class Investor {
         portfolioMap.remove(name);
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the active portfolio to the specified portfolio
     public void setActivePortfolio(String name) {
         activePortfolio = portfolioMap.get(name);
     }
 
+    // MODIFIES: this
+    // EFFECTS: deselects the active portfolio
     public void unsetActivePortfolio() {
         activePortfolio = null;
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates all the investor portfolios to match the information from the stock market
     public void updateAllPortfolios(StockMarket sm) {
         for (Portfolio p : portfolioMap.values()) {
             p.updateStocks(sm);
@@ -64,18 +71,22 @@ public class Investor {
     }
 
 
+    // EFFECTS: returns the name of the investor
     public String getInvestorName() {
         return name;
     }
 
+    // EFFECTS: returns the available funds that this investor has
     public double getInvestorFunds() {
         return funds;
     }
 
+    // EFFECTS: returns the active portfolio
     public Portfolio getActivePortfolio() {
         return activePortfolio;
     }
 
+    // EFFECTS: returns the hashmap containing all the portfolios
     public HashMap<String, Portfolio> getPortfolioMap() {
         return portfolioMap;
     }

@@ -1,16 +1,16 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-// Represents an investment portfolio of an investor
+// Represents an investment portfolio of an investor containing funds and various stock
 public class Portfolio {
-    private String name;                    // the name of the portfolio
+    private String name;                     // the name of the portfolio
     private HashMap<String, Stock> stockMap; // hashmap of all the stock in the portfolio
-    private double funds;
-    private double netWorth;
+    private double funds;                    // the available funds in this portfolio to buy stock
+    private double netWorth;                 // the total worth of all the stock in thie portfolio
 
+    // REQUIRES: name is non-zero in length
+    //           funds > 0
     // EFFECTS: name on portfolio set to name and the worth and change in value of
     //           this profile is initialized at zero
     public Portfolio(String name, double funds) {
@@ -30,7 +30,7 @@ public class Portfolio {
 
         if (stockMap.containsKey(stock)) {
             toBuy = stockMap.get(stock);
-            toBuy.adjustStockQuantity(quantityToBuy);
+            toBuy.adjustStockQuantity(quantityToBuy, sm);
         } else {
             toBuy = new Stock(stock, sm.getStockValue(stock), sm.getDay(), quantityToBuy);
             stockMap.put(stock, toBuy);
@@ -57,7 +57,7 @@ public class Portfolio {
         if (toSell.getQuantityOfStock() == quantityToSell) {
             stockMap.remove(stock);
         } else {
-            toSell.adjustStockQuantity(-quantityToSell);
+            toSell.adjustStockQuantity(-quantityToSell, sm);
 //            stockMap.put(stock, toSell);
         }
     }
@@ -73,7 +73,7 @@ public class Portfolio {
 
         if (stockMap.containsKey(stock)) {
             toAdd = stockMap.get(stock);
-            toAdd.adjustStockQuantity(quantityToAdd);
+            toAdd.adjustStockQuantity(quantityToAdd, sm);
         } else {
             toAdd = new Stock(stock, sm.getStockValue(stock), sm.getDay(), quantityToAdd);
             stockMap.put(stock, toAdd);
@@ -97,7 +97,7 @@ public class Portfolio {
         if (toRemove.getQuantityOfStock() == quantityToRemove) {
             stockMap.remove(stock);
         } else {
-            toRemove.adjustStockQuantity(-quantityToRemove);
+            toRemove.adjustStockQuantity(-quantityToRemove, sm);
         }
     }
 
@@ -111,6 +111,9 @@ public class Portfolio {
         addStock(sm, toTransfer, quantityToTransfer);
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates all the stock in this portfolio to reflect the most up to date prices
+    //          updates the net worth of all stock accordingly
     public void updateStocks(StockMarket sm) {
         for (Stock s : stockMap.values()) {
             s.updatePrices(sm);
@@ -123,30 +126,39 @@ public class Portfolio {
         }
     }
 
+    // EFFECTS: returns true if the given stock is in this portfolio, false otherwise
     public boolean isStockInPortfolio(String stock) {
         return stockMap.containsKey(stock);
     }
 
+    // MODIFIES: this
+    // EFFECTS: increases the funds by the amount
     public void addFunds(double amount) {
         funds += amount;
     }
 
+    // EFFECTS: returns the name of this portfolio as a String
     public String getPortfolioName() {
         return name;
     }
 
+    // EFFECTS: returns the hashmap representation of all the stocks in the portfolio
     public HashMap<String, Stock> getPortfolioMap() {
         return stockMap;
     }
 
+    // REQUIRES: the stock must be in this portfolio
+    // EFFECTS: returns a Stock in the stock map
     public Stock getStockInPortfolio(String stock) {
         return stockMap.get(stock);
     }
 
+    // EFFECTS: returns the available funds in the portfolio
     public double getPortfolioFunds() {
         return funds;
     }
 
+    // EFFECTS: returns the net worth of the stocks in the portfolio
     public double getPortfolioNetWorth() {
         return netWorth;
     }
