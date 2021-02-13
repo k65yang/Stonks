@@ -16,12 +16,15 @@ This application is open to anyone to use. Feedback is always appreciated :).
 
 This is a neat little project that I am doing mainly because most of the stock trading apps that I found online were all pretty terrible and either infested with ads or require you to pay for more premium features. So I am being the change that I want to see and making a game that is ad-free and contains all the so-called "premium" features without any cost. 
 
-### Some example uses of Stonks!
+### Some user stories of Stonks!
 
-- No experience, practice investing with no risk
-- Be able to add and remove different stocks from a portfolio while monitoring the total net worth of the portfolio
-- Be able to create and remove multiple portfolios to seperate your stocks by category
-- Be able to monitor the the price change of various stocks in the stock market with respect to time
+- Dr. Isulo (an alien Computer Science professor) has just arrived on earth and is very poor. He heard that the stock market is a great way to earn money, however, he has a very limited amount of money and no experience in stock trading. This app will be a perfect trainer for him as he can better understand the market and gain more experience in trading, without the risk of losing all his money!
+
+- After defeating Voldemort, Harry Potter decided in invest the galleons which is parents left him in the stock market (because why not?). With this app, he is able to obtain a sense of organization because Stonks allows the him to to create and remove multiple portfolios to seperate his stocks by category. He currently has several portfolios: short-term, long-term, high yield dividends. In the future, he plans to add a crypto portfolio and remove his short-term portfolio.
+
+- Ted Cruz (aka the Zodiac Killer) enjoys the portfolio functionality of this app. Not only does this app give advanced statistics of portfolio health, he has the ability to buy, sell, or transfer stocks from any of this portfolios nearly instantaneously. The speed of these transactions allows him to continually earn money and avoid questions about himself.
+
+- Mark Zuckerberg is a machine (no seriously, he's a robot). To make even more money, he uses AI to predict market behaviours and make investments accordingly. He favourite application to monitor market trends is Stonks!. It has a very versatile price tracker which allows the Mark to quickly extract historical performance data of a stock to analyze.
 
 A *bulleted* list:
 - item 1
