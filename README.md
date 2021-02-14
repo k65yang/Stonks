@@ -2,6 +2,8 @@
 
 ## A stock market simulator
 
+![Stonks!](https://github.students.cs.ubc.ca/CPSC210-2020W-T2/project_n1a0o/blob/master/data/images/stonks.png)
+
 ### About this application
 
 This is a single player application which simulates an a stock market envrionment. Designed as a simulator, the player beings with a certain amount of funds and immediately thrown into the wild west of stock trading. The investor will have to rely on their intuition and a side of luck to grow their investment to the moon. This game invites all the come and experience the thrill of growing your investment fund through strategic stock purchases and sales. Or wallow in dispair as you see slowly see your money consumed by economic turnmoil.
