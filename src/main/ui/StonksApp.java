@@ -287,7 +287,7 @@ public class StonksApp {
 
     // MODIFIES: this
     // EFFECTS: buys a quantity of specific stock
-    public void keyEventBPortfolio() {
+    private void keyEventBPortfolio() {
         System.out.println("Type the name of the stock you wish to buy:");
         String toBuy = input.next();
 
@@ -318,7 +318,7 @@ public class StonksApp {
 
     // MODIFIES: this
     // EFFECTS: sells a quantity of specific stock
-    public void keyEventSPortfolio() {
+    private void keyEventSPortfolio() {
         System.out.println("Type the name of the stock you wish to sell:");
         String toSell = input.next();
         toSell = toSell.toUpperCase();
@@ -348,7 +348,7 @@ public class StonksApp {
 
     // MODIFIES: this
     // EFFECTS: transfers a quantity of specific stock to another existing portfolio
-    public void keyEventTPortfolio() {
+    private void keyEventTPortfolio() {
         System.out.println("Enter the name of the portfolio you wish to transfer to:");
         String other = input.next();
 
@@ -382,7 +382,7 @@ public class StonksApp {
     }
 
     // EFFECTS: returns the user to the investor menu
-    public void keyEventIPortfolio() {
+    private void keyEventIPortfolio() {
         System.out.println("Taking you back to the investor menu:");
         activeMenu = 1;
     }
@@ -401,7 +401,7 @@ public class StonksApp {
     }
 
     // EFFECTS: displays the stock price history of a particular stock
-    public void keyEventPStockMarket() {
+    private void keyEventPStockMarket() {
         System.out.println("Enter the name of the stock you wish to view:");
         String toView = input.next();
         toView = toView.toUpperCase();
@@ -422,7 +422,7 @@ public class StonksApp {
     }
 
     // EFFECTS: returns the user to the investor menu
-    public void keyEventIStockMarket() {
+    private void keyEventIStockMarket() {
         System.out.println("Taking you back to the investor menu");
         activeMenu = 1;
     }
