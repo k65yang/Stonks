@@ -92,6 +92,7 @@ public class StonksApp {
         System.out.println("\tr -> remove a portfolio");
         System.out.println("\tp -> view an exiting portfolio");
         System.out.println("\ts -> go to the stock market menu");
+        System.out.println("\tu -> update the day in game time");
         System.out.println("\tq -> quit");
     }
 
@@ -149,6 +150,8 @@ public class StonksApp {
             keyEventPInvestorMenu();
         } else if (command.equals("s")) {
             keyEventSInvestorMenu();
+        } else if (command.equals("u")) {
+            keyEventUInvestorMenu();
         } else if (command.equals("q")) {
             keyEventQ();
         } else {
@@ -245,6 +248,19 @@ public class StonksApp {
     private void keyEventSInvestorMenu() {
         System.out.println("let's take a look at the stock market!");
         activeMenu = 3;
+    }
+
+    private void keyEventUInvestorMenu() {
+        System.out.println("Enter the number of days you which to increment:");
+        int days = input.nextInt();
+
+        while (days < 1) {
+            System.out.println("Invaild value. Please enter an integer larger than 0:");
+            days = input.nextInt();
+        }
+
+        sm.updateStockPrice(days);
+        investor.updateAllPortfolios(sm);
     }
 
     // EFFECTS: stops the application
@@ -400,7 +416,7 @@ public class StonksApp {
         System.out.println("\nThis is the price history of " + toView);
         System.out.println("Day" + "\tPrice");
         for (int i = 0; i < history.size(); i++) {
-            String formatted = String.format(".2%f", history.get(i));
+            String formatted = String.format("%.2f", history.get(i));
             System.out.println("Day " + i + "\t" + formatted);
         }
     }
