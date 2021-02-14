@@ -6,9 +6,11 @@
 
 ### About this application
 
-This is a single player application which simulates an a stock market envrionment. Designed as a simulator, the player beings with a certain amount of funds and immediately thrown into the wild west of stock trading. The investor will have to rely on their intuition and a side of luck to grow their investment to the moon. This game invites all the come and experience the thrill of growing your investment fund through strategic stock purchases and sales. Or wallow in dispair as you see slowly see your money consumed by economic turnmoil.
+This is a single player application which mimics a stock market envrionment. Designed as a simulator, the player beings with a certain amount of funds and immediately thrown into the wild west of stock trading. The investor will have to rely on their intuition along with a side of luck to grow their investment to the moon. This game invites all to come and experience the thrill of growing your investment fund through strategic stock purchases and sales. Or wallow in dispair as you see slowly see your money consumed by economic turnmoil.
 
-Unfortunetly, do to project limitations, *APIs are not allowed and thus this simulator in no way reflects the current market*. To address this shortcoming, I had to make all stock prices all fluctuate randomly, but overall, all the stocks can be considered bullish. 
+The player begins as an investor with a certain amount of funds and access to a stock market. From there on, they are responsible for creating portfolios and within each portfolio, buy whichever stocks they think will be the most successful. Be careful though! Unless the investor found their TSLA, it might not be a good idea to hold on to the stock for a long time, so they may have to sell (remove) the stock for some profit and to buy the next big stock. 
+
+Unfortunetly, do to project limitations, *APIs are not allowed and thus this simulator in no way reflects the current market*. To address this shortcoming, I had to make a fake stock market which automatically generates all stock prices randomly. In addition, all the stocks will fluctuate randomly with time, but overall, all the stocks will tend to have an upward trend (bullish). 
 
 ### Who is this for?
 
