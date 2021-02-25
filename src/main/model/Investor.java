@@ -1,13 +1,14 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.HashMap;
-import java.util.List;
 
 // Represents an investor having a name and one or more portfolios
-public class Investor {
+public class Investor implements Writable {
     private String name;
     private double funds;
-    private List<Portfolio> portfolioList;
     private HashMap<String, Portfolio> portfolioMap;
     private Portfolio activePortfolio;
 
@@ -18,7 +19,6 @@ public class Investor {
     public Investor(String name, double funds) {
         this.name = name;
         this.funds = funds;
-//        portfolioList = new ArrayList<>();
         portfolioMap = new HashMap<>();
     }
 
@@ -30,6 +30,13 @@ public class Investor {
         Portfolio toAdd  = new Portfolio(name, addFunds);
         portfolioMap.put(name, toAdd);
         funds -= addFunds;
+    }
+
+    // Special method to be used when loading from file
+    public Portfolio addPortfolioFromFile(String name, double funds) {
+        Portfolio toAdd  = new Portfolio(name, funds);
+        portfolioMap.put(name, toAdd);
+        return toAdd;
     }
 
     // REQUIRES: name must be a portfolio that exists
@@ -50,11 +57,31 @@ public class Investor {
         portfolioMap.remove(name);
     }
 
-    // MODIFIES: this
-    // EFFECTS: sets the active portfolio to the specified portfolio
-    public void setActivePortfolio(String name) {
-        activePortfolio = portfolioMap.get(name);
+    // MODIFIES: a portfolio p
+    // EFFECTS: updates the portfolio using the new prices from the stock market
+    public void updateAllPortfolios(StockMarket sm) {
+        for (Portfolio p : portfolioMap.values()) {
+            p.updateStocks(sm);
+        }
     }
+
+
+    // MODIFIES: this
+    // EFFECTS: sets the active portfolio to the specified portfolio, and returns it
+    public Portfolio setActivePortfolio(String name) {
+        activePortfolio = portfolioMap.get(name);
+        return activePortfolio;
+    }
+
+    // REQUIRES: json must be portfolio data?
+    public void setInvestorFromFile(JSONObject json) {
+        JSONObject jsonPortfolio = json.getJSONObject("Portfolios");
+        for (String key : jsonPortfolio.keySet()) {
+            Portfolio p = addPortfolioFromFile(key, 0.0);
+            p.setPortfolioFromFile(jsonPortfolio.getJSONObject(key));
+        }
+    }
+
 
     // MODIFIES: this
     // EFFECTS: deselects the active portfolio
@@ -64,12 +91,6 @@ public class Investor {
 
     // MODIFIES: this
     // EFFECTS: updates all the investor portfolios to match the information from the stock market
-    public void updateAllPortfolios(StockMarket sm) {
-        for (Portfolio p : portfolioMap.values()) {
-            p.updateStocks(sm);
-        }
-    }
-
 
     // EFFECTS: returns the name of the investor
     public String getInvestorName() {
@@ -81,13 +102,25 @@ public class Investor {
         return funds;
     }
 
-    // EFFECTS: returns the active portfolio
-    public Portfolio getActivePortfolio() {
-        return activePortfolio;
-    }
-
     // EFFECTS: returns the hashmap containing all the portfolios
     public HashMap<String, Portfolio> getPortfolioMap() {
         return portfolioMap;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonInvestor = new JSONObject();
+        jsonInvestor.put("Investor", name);
+        jsonInvestor.put("Total funds", funds);
+        jsonInvestor.put("Portfolios", portfolioToJson());
+        return jsonInvestor;
+    }
+
+    private JSONObject portfolioToJson() {
+        JSONObject jsonPortfolio = new JSONObject();
+        for (String p : portfolioMap.keySet()) {
+            jsonPortfolio.put(p, portfolioMap.get(p).toJson());
+        }
+        return jsonPortfolio;
     }
 }

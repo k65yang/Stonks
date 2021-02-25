@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 // Represents an investment portfolio of an investor containing funds and various stock
@@ -161,5 +163,38 @@ public class Portfolio {
     // EFFECTS: returns the net worth of the stocks in the portfolio
     public double getPortfolioNetWorth() {
         return netWorth;
+    }
+
+    public void setPortfolioFromFile(JSONObject jsonPortfolio) {
+        funds = jsonPortfolio.getDouble("Portfolio Funds");
+        netWorth = jsonPortfolio.getDouble("Portfolio Net Worth");
+        JSONObject stocksJson = jsonPortfolio.getJSONObject("Portfolio Stocks");
+        for (String s : stocksJson.keySet()) {
+            Stock stock = loadStockFromFile(s);
+            stock.loadStockDataFromFile(stocksJson.getJSONObject(s));
+        }
+    }
+
+    public Stock loadStockFromFile(String stock) {
+        Stock s = new Stock(null, 0.0, 0, 0);
+        stockMap.put(stock, s);
+        return s;
+    }
+
+    public JSONObject toJson() {
+        JSONObject jsonPortfolioContents = new JSONObject();
+        jsonPortfolioContents.put("Portfolio Funds", funds);
+        jsonPortfolioContents.put("Portfolio Net Worth", netWorth);
+        jsonPortfolioContents.put("Portfolio Stocks", stocksToJson());
+
+        return jsonPortfolioContents;
+    }
+
+    public JSONObject stocksToJson() {
+        JSONObject jsonStocks = new JSONObject();
+        for (String s : stockMap.keySet()) {
+            jsonStocks.put(s, stockMap.get(s).toJson());
+        }
+        return jsonStocks;
     }
 }

@@ -17,8 +17,7 @@ public class StockUpdateTest {
         investor = new Investor("Henry", 100000000);
 
         investor.addPortfolio("Stonk", 100000);
-        investor.setActivePortfolio("Stonk");
-        Portfolio stonk = investor.getActivePortfolio();
+        Portfolio stonk = investor.setActivePortfolio("Stonk");
         stonk.buyStock(sm, "PHUN", 1);
         stonk.buyStock(sm, "GOOG", 1);
 
@@ -29,8 +28,7 @@ public class StockUpdateTest {
         investor.unsetActivePortfolio();
 
         investor.addPortfolio("Tank", 500000);
-        investor.setActivePortfolio("Tank");
-        Portfolio tank = investor.getActivePortfolio();
+        Portfolio tank = investor.setActivePortfolio("Tank");
         tank.buyStock(sm, "GME", 1);
 
         assertEquals(tank.getPortfolioMap().size(), 1);
@@ -42,8 +40,7 @@ public class StockUpdateTest {
         sm.updateStockPrice(1);
         investor.updateAllPortfolios(sm);
 
-        investor.setActivePortfolio("Stonk");
-        Portfolio stonk = investor.getActivePortfolio();
+        Portfolio stonk = investor.setActivePortfolio("Stonk");
         investor.unsetActivePortfolio();
 
         Stock stonkPHUN = stonk.getStockInPortfolio("PHUN");
@@ -52,8 +49,7 @@ public class StockUpdateTest {
         assertEquals(stonkPHUN.getTotalValue(), sm.getStockValue("PHUN"));
         assertEquals(stonkGOOG.getTotalValue(), sm.getStockValue("GOOG"));
 
-        investor.setActivePortfolio("Tank");
-        Portfolio tank = investor.getActivePortfolio();
+        Portfolio tank = investor.setActivePortfolio("Tank");
         investor.unsetActivePortfolio();
 
         Stock tankGME = tank.getStockInPortfolio("GME");
@@ -70,8 +66,7 @@ public class StockUpdateTest {
         sm.updateStockPrice(1);
         investor.updateAllPortfolios(sm);
 
-        investor.setActivePortfolio("Tank");
-        Portfolio tank = investor.getActivePortfolio();
+        Portfolio tank = investor.setActivePortfolio("Tank");
         investor.unsetActivePortfolio();
 
         Stock tankGME = tank.getStockInPortfolio("GME");

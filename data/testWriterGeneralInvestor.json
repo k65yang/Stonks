@@ -1,0 +1,54 @@
+{
+    "Total funds": 92000,
+    "Investor": "Henry",
+    "Portfolios": {
+        "Test1": {
+            "Portfolio Funds": 1893.04,
+            "Portfolio Net Worth": 1101.3881795664531,
+            "Portfolio Stocks": {
+                "AAPL": {
+                    "Value Tracker": {
+                        "0": 131.96,
+                        "3": 131.20469039874652
+                    },
+                    "Quantity": 1,
+                    "Total Value": 131.20469039874652,
+                    "Stock Name": "AAPL"
+                },
+                "GME": {
+                    "Value Tracker": {
+                        "0": 975,
+                        "3": 970.1834891677066
+                    },
+                    "Quantity": 3,
+                    "Total Value": 970.1834891677066,
+                    "Stock Name": "GME"
+                }
+            }
+        },
+        "Test2": {
+            "Portfolio Funds": 4308.75,
+            "Portfolio Net Worth": 726.5982898629086,
+            "Portfolio Stocks": {
+                "NVDA": {
+                    "Value Tracker": {
+                        "0": 515.59,
+                        "3": 535.0473522919377
+                    },
+                    "Quantity": 1,
+                    "Total Value": 535.0473522919377,
+                    "Stock Name": "NVDA"
+                },
+                "MMM": {
+                    "Value Tracker": {
+                        "0": 175.66,
+                        "3": 191.55093757097092
+                    },
+                    "Quantity": 1,
+                    "Total Value": 191.55093757097092,
+                    "Stock Name": "MMM"
+                }
+            }
+        }
+    }
+}

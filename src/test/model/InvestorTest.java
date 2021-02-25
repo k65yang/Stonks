@@ -25,17 +25,14 @@ public class InvestorTest {
         i.addPortfolio("Stonks", 10000);
         i.addPortfolio("Moon", 1);
 
-        i.setActivePortfolio("Stonks");
-        Portfolio p = i.getActivePortfolio();
+        Portfolio p = i.setActivePortfolio("Stonks");
 
         assertEquals(p.getPortfolioName(), "Stonks");
         assertEquals(p.getPortfolioFunds(), 10000);
 
         i.unsetActivePortfolio();
-        assertNull(i.getActivePortfolio());
 
-        i.setActivePortfolio("Moon");
-        p = i.getActivePortfolio();
+        p = i.setActivePortfolio("Moon");
 
         assertEquals(p.getPortfolioName(), "Moon");
         assertEquals(p.getPortfolioFunds(), 1);

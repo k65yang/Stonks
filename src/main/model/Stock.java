@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 // Represents a stock with a name, total value, quantity, and a value tracker to track the changes
@@ -18,13 +20,13 @@ public class Stock {
     //          the quantity is set to quantity, the total value is set to
     //          quantity times the value, the day that this stock was bought and the
     //          total value is added to the value tracker
-    public Stock(String name, double value, Integer day, Integer quantity) {
+    public Stock(String name, Double value, Integer purchaseDay, Integer quantity) {
         this.name = name;
         this.totalValue = value * quantity;
         this.quantity = quantity;
         valueTracker = new HashMap<>();
 
-        valueTracker.put(day, this.totalValue);
+        valueTracker.put(purchaseDay, this.totalValue);
     }
 
     // MODIFIES: this
@@ -62,6 +64,34 @@ public class Stock {
     // EFFECTS: returns the value tracker for this stock
     public HashMap<Integer, Double> getValueTracker() {
         return valueTracker;
+    }
+
+    public void loadStockDataFromFile(JSONObject jsonStock) {
+        name = jsonStock.getString("Stock Name");
+        totalValue = jsonStock.getDouble("Total Value");
+        quantity = jsonStock.getInt("Quantity");
+        JSONObject valueTrackerObject = jsonStock.getJSONObject("Value Tracker");
+        for (String s : valueTrackerObject.keySet()) {
+            valueTracker.put(Integer.parseInt(s), valueTrackerObject.getDouble(s));
+        }
+
+    }
+
+    public JSONObject toJson() {
+        JSONObject jsonStock = new JSONObject();
+        jsonStock.put("Stock Name", getStockName());
+        jsonStock.put("Quantity", getQuantityOfStock());
+        jsonStock.put("Total Value", getTotalValue());
+        jsonStock.put("Value Tracker", valueTrackerMap());
+        return jsonStock;
+    }
+
+    private JSONObject valueTrackerMap() {
+        JSONObject jsonValueTracker = new JSONObject();
+        for (Integer i : valueTracker.keySet()) {
+            jsonValueTracker.put(i.toString(), valueTracker.get(i));
+        }
+        return jsonValueTracker;
     }
 
 }

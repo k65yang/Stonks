@@ -237,8 +237,7 @@ public class StonksApp {
             System.out.println("Double check the spelling and re-enter the portfolio name:");
             toView = input.next();
         }
-        investor.setActivePortfolio(toView);
-        activePortfolio = investor.getActivePortfolio();
+        activePortfolio = investor.setActivePortfolio(toView);
         investor.unsetActivePortfolio();
 
         activeMenu = 2;
@@ -255,7 +254,7 @@ public class StonksApp {
         int days = input.nextInt();
 
         while (days < 1) {
-            System.out.println("Invaild value. Please enter an integer larger than 0:");
+            System.out.println("Invalid value. Please enter an integer larger than 0:");
             days = input.nextInt();
         }
 
@@ -337,7 +336,7 @@ public class StonksApp {
         int total = stock.getQuantityOfStock();
 
         if (amount > total) {
-            System.out.println("You do not have that much + " + toSell + " to sell! You only own" + total + " shares");
+            System.out.println("You do not have that much " + toSell + " to sell! You only own " + total + " shares");
             System.out.println("Please enter a valid quantity:");
             amount = input.nextInt();
         }
@@ -419,6 +418,7 @@ public class StonksApp {
             String formatted = String.format("%.2f", history.get(i));
             System.out.println("Day " + i + "\t" + formatted);
         }
+        System.out.println("");
     }
 
     // EFFECTS: returns the user to the investor menu
