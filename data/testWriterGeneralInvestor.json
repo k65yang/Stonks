@@ -4,48 +4,48 @@
     "Portfolios": {
         "Test1": {
             "Portfolio Funds": 1893.04,
-            "Portfolio Net Worth": 1101.3881795664531,
+            "Portfolio Net Worth": 1156.424463336594,
             "Portfolio Stocks": {
                 "AAPL": {
                     "Value Tracker": {
                         "0": 131.96,
-                        "3": 131.20469039874652
+                        "3": 146.14812265191387
                     },
                     "Quantity": 1,
-                    "Total Value": 131.20469039874652,
+                    "Total Value": 146.14812265191387,
                     "Stock Name": "AAPL"
                 },
                 "GME": {
                     "Value Tracker": {
                         "0": 975,
-                        "3": 970.1834891677066
+                        "3": 1010.2763406846802
                     },
                     "Quantity": 3,
-                    "Total Value": 970.1834891677066,
+                    "Total Value": 1010.2763406846802,
                     "Stock Name": "GME"
                 }
             }
         },
         "Test2": {
             "Portfolio Funds": 4308.75,
-            "Portfolio Net Worth": 726.5982898629086,
+            "Portfolio Net Worth": 661.797159973601,
             "Portfolio Stocks": {
                 "NVDA": {
                     "Value Tracker": {
                         "0": 515.59,
-                        "3": 535.0473522919377
+                        "3": 483.7943224110708
                     },
                     "Quantity": 1,
-                    "Total Value": 535.0473522919377,
+                    "Total Value": 483.7943224110708,
                     "Stock Name": "NVDA"
                 },
                 "MMM": {
                     "Value Tracker": {
                         "0": 175.66,
-                        "3": 191.55093757097092
+                        "3": 178.00283756253012
                     },
                     "Quantity": 1,
-                    "Total Value": 191.55093757097092,
+                    "Total Value": 178.00283756253012,
                     "Stock Name": "MMM"
                 }
             }

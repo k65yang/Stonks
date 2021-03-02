@@ -2,14 +2,25 @@ package persistence;
 
 import model.Investor;
 import model.Portfolio;
+import model.Stock;
 import model.StockMarket;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonWriterTest {
+
+    @Test
+    public void testWriteIncorrectFileName() {
+        try {
+            JsonWriter writer = new JsonWriter("./data/\ntestWriterGeneralInvestor.json");
+        } catch (Exception e) {
+            // All good, test passed
+        }
+    }
 
     @Test
     public void testWriteGeneralInvestor() {
@@ -38,7 +49,36 @@ public class JsonWriterTest {
 
 
         } catch (IOException e) {
-            fail("Ya dun goofed");
+            fail("Something went wrong!");
+        }
+    }
+
+    @Test
+    public void testWriteStockMarketDayZero() {
+        StockMarket sm = new StockMarket();
+
+        try {
+            JsonWriter writer = new JsonWriter("./data/testWriterStockMarketDayZero.json");
+            writer.open();
+            writer.writeStockMarket(sm);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            fail("Something went wrong!");
+        }
+    }
+
+    @Test
+    public void testWriteStockMarketDayThree() {
+        StockMarket sm = new StockMarket();
+        sm.updateStockPrice(3);
+
+        try {
+            JsonWriter writer = new JsonWriter("./data/testWriterStockMarketDayThree.json");
+            writer.open();
+            writer.writeStockMarket(sm);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            fail("Something went wrong!");
         }
     }
 }

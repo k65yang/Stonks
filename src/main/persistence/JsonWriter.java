@@ -1,6 +1,7 @@
 package persistence;
 
 import model.Investor;
+import model.StockMarket;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -29,6 +30,11 @@ public class JsonWriter {
     // EFFECTS: writes JSON representation of Investor to file
     public void writeInvestor(Investor i) {
         JSONObject json = i.toJson();
+        saveToFile(json.toString(TAB));
+    }
+
+    public void writeStockMarket(StockMarket stockMarket) {
+        JSONObject json = stockMarket.toJson();
         saveToFile(json.toString(TAB));
     }
 

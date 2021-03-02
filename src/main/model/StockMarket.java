@@ -1,9 +1,14 @@
 package model;
 
+import exceptions.IncompatiableStockMarketException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.*;
 
 // Represents a stock market with various stocks that fluctuate randomly in price
-public class StockMarket {
+public class StockMarket implements Writable {
     private Integer dayInGameTime;                                 // the day in game time,
     private HashMap<String, Double> stockMarket;                   // hashmap represents the stock and its values
     private HashMap<String, ArrayList<Double>> stockPriceTracker;  // keeps track of the daily prices of each stock
@@ -95,4 +100,35 @@ public class StockMarket {
         return dayInGameTime;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonStockMarket = new JSONObject();
+        jsonStockMarket.put("Day", dayInGameTime);
+        for (String s : stockMarket.keySet()) {
+            ArrayList<Double> priceList = stockPriceTracker.get(s);
+            JSONArray stockPriceTracker = new JSONArray(priceList);
+            jsonStockMarket.put(s, stockPriceTracker);
+        }
+        return jsonStockMarket;
+    }
+
+    public void loadFromFile(JSONObject jsonStockMarket) throws IncompatiableStockMarketException {
+        dayInGameTime = jsonStockMarket.getInt("Day");
+        for (String s : jsonStockMarket.keySet()) {
+            if (s.equals("Day")) {
+                continue;
+            } else if (!containsStock(s)) {
+                throw new IncompatiableStockMarketException();
+            } else {
+                List<Double> priceTrackerList = new ArrayList<>();
+                JSONArray priceTrackerJson = jsonStockMarket.getJSONArray(s);
+                for (int i = 0; i < priceTrackerJson.length(); i++) {
+                    priceTrackerList.add(priceTrackerJson.getDouble(i));
+                }
+                stockPriceTracker.put(s, (ArrayList)priceTrackerList);
+                stockMarket.put(s, priceTrackerList.get(priceTrackerList.size() - 1));
+            }
+
+        }
+    }
 }

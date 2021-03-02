@@ -1,11 +1,12 @@
 package model;
 
 import org.json.JSONObject;
+import persistence.Writable;
 
 import java.util.HashMap;
 
 // Represents an investment portfolio of an investor containing funds and various stock
-public class Portfolio {
+public class Portfolio implements Writable {
     private String name;                     // the name of the portfolio
     private HashMap<String, Stock> stockMap; // hashmap of all the stock in the portfolio
     private double funds;                    // the available funds in this portfolio to buy stock
@@ -165,7 +166,7 @@ public class Portfolio {
         return netWorth;
     }
 
-    public void setPortfolioFromFile(JSONObject jsonPortfolio) {
+    public void loadPortfolioFromFile(JSONObject jsonPortfolio) {
         funds = jsonPortfolio.getDouble("Portfolio Funds");
         netWorth = jsonPortfolio.getDouble("Portfolio Net Worth");
         JSONObject stocksJson = jsonPortfolio.getJSONObject("Portfolio Stocks");

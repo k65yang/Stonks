@@ -1,12 +1,13 @@
 package model;
 
 import org.json.JSONObject;
+import persistence.Writable;
 
 import java.util.HashMap;
 
 // Represents a stock with a name, total value, quantity, and a value tracker to track the changes
 // in the overall value of the stock
-public class Stock {
+public class Stock implements Writable {
     private String name;
     private double totalValue;
     private Integer quantity;

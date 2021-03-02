@@ -78,7 +78,7 @@ public class Investor implements Writable {
         JSONObject jsonPortfolio = json.getJSONObject("Portfolios");
         for (String key : jsonPortfolio.keySet()) {
             Portfolio p = addPortfolioFromFile(key, 0.0);
-            p.setPortfolioFromFile(jsonPortfolio.getJSONObject(key));
+            p.loadPortfolioFromFile(jsonPortfolio.getJSONObject(key));
         }
     }
 

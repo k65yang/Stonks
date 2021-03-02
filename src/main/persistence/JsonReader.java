@@ -1,6 +1,8 @@
 package persistence;
 
+import exceptions.IncompatiableStockMarketException;
 import model.Investor;
+import model.StockMarket;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -26,6 +28,12 @@ public class JsonReader {
         return parseInvestor(jsonObject);
     }
 
+    public StockMarket readStockMarket() throws IOException, IncompatiableStockMarketException {
+        String jsonData = readFile(source);
+        JSONObject jsonObject = new JSONObject(jsonData);
+        return parseStockMarket(jsonObject);
+    }
+
     // EFFECTS: reads source file as string and returns it
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
@@ -44,5 +52,11 @@ public class JsonReader {
         Investor i = new Investor(name, funds);
         i.setInvestorFromFile(jsonObject);
         return i;
+    }
+
+    private StockMarket parseStockMarket(JSONObject jsonObject) throws IncompatiableStockMarketException {
+        StockMarket sm = new StockMarket();
+        sm.loadFromFile(jsonObject);
+        return sm;
     }
 }
