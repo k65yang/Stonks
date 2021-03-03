@@ -2,7 +2,6 @@ package persistence;
 
 import model.Investor;
 import model.Portfolio;
-import model.Stock;
 import model.StockMarket;
 import org.junit.jupiter.api.Test;
 
@@ -16,9 +15,22 @@ public class JsonWriterTest {
     @Test
     public void testWriteIncorrectFileName() {
         try {
-            JsonWriter writer = new JsonWriter("./data/\ntestWriterGeneralInvestor.json");
+            JsonWriter writer = new JsonWriter("./data/\ntestWriterGeneralInvestorFINAL.json");
         } catch (Exception e) {
             // All good, test passed
+        }
+    }
+
+    @Test
+    public void testWriteEmptyInvestor() {
+        try {
+            Investor i = new Investor("Empty", 10000);
+            JsonWriter writer = new JsonWriter("./data/testWriterEmptyInvestor.json");
+            writer.open();
+            writer.write(i);
+            writer.close();
+        } catch (Exception e) {
+            fail("Something went wrong!");
         }
     }
 
@@ -44,7 +56,7 @@ public class JsonWriterTest {
 
             JsonWriter writer = new JsonWriter("./data/testWriterGeneralInvestor.json");
             writer.open();
-            writer.writeInvestor(i);
+            writer.write(i);
             writer.close();
 
 
@@ -60,7 +72,7 @@ public class JsonWriterTest {
         try {
             JsonWriter writer = new JsonWriter("./data/testWriterStockMarketDayZero.json");
             writer.open();
-            writer.writeStockMarket(sm);
+            writer.write(sm);
             writer.close();
         } catch (FileNotFoundException e) {
             fail("Something went wrong!");
@@ -75,7 +87,7 @@ public class JsonWriterTest {
         try {
             JsonWriter writer = new JsonWriter("./data/testWriterStockMarketDayThree.json");
             writer.open();
-            writer.writeStockMarket(sm);
+            writer.write(sm);
             writer.close();
         } catch (FileNotFoundException e) {
             fail("Something went wrong!");

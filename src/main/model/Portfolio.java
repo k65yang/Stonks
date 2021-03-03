@@ -166,6 +166,27 @@ public class Portfolio implements Writable {
         return netWorth;
     }
 
+    @Override
+    // EFFECTS: returns all this Portfolio data as a JSONObject
+    public JSONObject toJson() {
+        JSONObject jsonPortfolioContents = new JSONObject();
+        jsonPortfolioContents.put("Portfolio Funds", funds);
+        jsonPortfolioContents.put("Portfolio Net Worth", netWorth);
+        jsonPortfolioContents.put("Portfolio Stocks", stocksToJson());
+
+        return jsonPortfolioContents;
+    }
+
+    // EFFECTS: returns all the stock data as a JSONObject
+    public JSONObject stocksToJson() {
+        JSONObject jsonStocks = new JSONObject();
+        for (String s : stockMap.keySet()) {
+            jsonStocks.put(s, stockMap.get(s).toJson());
+        }
+        return jsonStocks;
+    }
+
+    // EFFECTS: loads the portfolio data from the JSONObject
     public void loadPortfolioFromFile(JSONObject jsonPortfolio) {
         funds = jsonPortfolio.getDouble("Portfolio Funds");
         netWorth = jsonPortfolio.getDouble("Portfolio Net Worth");
@@ -176,26 +197,10 @@ public class Portfolio implements Writable {
         }
     }
 
-    public Stock loadStockFromFile(String stock) {
+    // EFFECTS: loads the stock data from the JSONObject
+    private Stock loadStockFromFile(String stock) {
         Stock s = new Stock(null, 0.0, 0, 0);
         stockMap.put(stock, s);
         return s;
-    }
-
-    public JSONObject toJson() {
-        JSONObject jsonPortfolioContents = new JSONObject();
-        jsonPortfolioContents.put("Portfolio Funds", funds);
-        jsonPortfolioContents.put("Portfolio Net Worth", netWorth);
-        jsonPortfolioContents.put("Portfolio Stocks", stocksToJson());
-
-        return jsonPortfolioContents;
-    }
-
-    public JSONObject stocksToJson() {
-        JSONObject jsonStocks = new JSONObject();
-        for (String s : stockMap.keySet()) {
-            jsonStocks.put(s, stockMap.get(s).toJson());
-        }
-        return jsonStocks;
     }
 }

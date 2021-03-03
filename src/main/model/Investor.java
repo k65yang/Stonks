@@ -73,16 +73,6 @@ public class Investor implements Writable {
         return activePortfolio;
     }
 
-    // REQUIRES: json must be portfolio data?
-    public void setInvestorFromFile(JSONObject json) {
-        JSONObject jsonPortfolio = json.getJSONObject("Portfolios");
-        for (String key : jsonPortfolio.keySet()) {
-            Portfolio p = addPortfolioFromFile(key, 0.0);
-            p.loadPortfolioFromFile(jsonPortfolio.getJSONObject(key));
-        }
-    }
-
-
     // MODIFIES: this
     // EFFECTS: deselects the active portfolio
     public void unsetActivePortfolio() {
@@ -107,7 +97,9 @@ public class Investor implements Writable {
         return portfolioMap;
     }
 
+
     @Override
+    // EFFECTS: returns all the investor data as a JSONObject
     public JSONObject toJson() {
         JSONObject jsonInvestor = new JSONObject();
         jsonInvestor.put("Investor", name);
@@ -116,11 +108,21 @@ public class Investor implements Writable {
         return jsonInvestor;
     }
 
+    // EFFECTS: returns all the portfolios of the investor as a single JSONObject
     private JSONObject portfolioToJson() {
         JSONObject jsonPortfolio = new JSONObject();
         for (String p : portfolioMap.keySet()) {
             jsonPortfolio.put(p, portfolioMap.get(p).toJson());
         }
         return jsonPortfolio;
+    }
+
+    // EFFECTS: loads the investor data from the JSONObject
+    public void loadInvestorFromFile(JSONObject json) {
+        JSONObject jsonPortfolio = json.getJSONObject("Portfolios");
+        for (String key : jsonPortfolio.keySet()) {
+            Portfolio p = addPortfolioFromFile(key, 0.0);
+            p.loadPortfolioFromFile(jsonPortfolio.getJSONObject(key));
+        }
     }
 }

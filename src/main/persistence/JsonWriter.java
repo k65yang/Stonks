@@ -27,14 +27,9 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes JSON representation of Investor to file
-    public void writeInvestor(Investor i) {
-        JSONObject json = i.toJson();
-        saveToFile(json.toString(TAB));
-    }
-
-    public void writeStockMarket(StockMarket stockMarket) {
-        JSONObject json = stockMarket.toJson();
+    // EFFECTS: writes JSON representation of w to file
+    public void write(Writable w) {
+        JSONObject json = w.toJson();
         saveToFile(json.toString(TAB));
     }
 

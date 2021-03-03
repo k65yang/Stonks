@@ -101,6 +101,7 @@ public class StockMarket implements Writable {
     }
 
     @Override
+    // EFFECTS: returns all this stock market's data as a JSONObject
     public JSONObject toJson() {
         JSONObject jsonStockMarket = new JSONObject();
         jsonStockMarket.put("Day", dayInGameTime);
@@ -112,6 +113,7 @@ public class StockMarket implements Writable {
         return jsonStockMarket;
     }
 
+    // EFFECTS: loads the stock market data from the JSONObject
     public void loadFromFile(JSONObject jsonStockMarket) throws IncompatiableStockMarketException {
         dayInGameTime = jsonStockMarket.getInt("Day");
         for (String s : jsonStockMarket.keySet()) {

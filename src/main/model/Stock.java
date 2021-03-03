@@ -67,17 +67,8 @@ public class Stock implements Writable {
         return valueTracker;
     }
 
-    public void loadStockDataFromFile(JSONObject jsonStock) {
-        name = jsonStock.getString("Stock Name");
-        totalValue = jsonStock.getDouble("Total Value");
-        quantity = jsonStock.getInt("Quantity");
-        JSONObject valueTrackerObject = jsonStock.getJSONObject("Value Tracker");
-        for (String s : valueTrackerObject.keySet()) {
-            valueTracker.put(Integer.parseInt(s), valueTrackerObject.getDouble(s));
-        }
-
-    }
-
+    @Override
+    // EFFECTS: returns all this stock data as a JSONObject
     public JSONObject toJson() {
         JSONObject jsonStock = new JSONObject();
         jsonStock.put("Stock Name", getStockName());
@@ -87,12 +78,25 @@ public class Stock implements Writable {
         return jsonStock;
     }
 
+    // EFFECTS: returns all the value tracker of this stock as a single JSONObject
     private JSONObject valueTrackerMap() {
         JSONObject jsonValueTracker = new JSONObject();
         for (Integer i : valueTracker.keySet()) {
             jsonValueTracker.put(i.toString(), valueTracker.get(i));
         }
         return jsonValueTracker;
+    }
+
+    // EFFECTS: loads the stock data from the JSONObject
+    public void loadStockDataFromFile(JSONObject jsonStock) {
+        name = jsonStock.getString("Stock Name");
+        totalValue = jsonStock.getDouble("Total Value");
+        quantity = jsonStock.getInt("Quantity");
+        JSONObject valueTrackerObject = jsonStock.getJSONObject("Value Tracker");
+        for (String s : valueTrackerObject.keySet()) {
+            valueTracker.put(Integer.parseInt(s), valueTrackerObject.getDouble(s));
+        }
+
     }
 
 }
