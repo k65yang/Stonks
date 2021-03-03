@@ -11,7 +11,7 @@ import java.util.*;
 public class StockMarket implements Writable {
     private Integer dayInGameTime;                                 // the day in game time,
     private HashMap<String, Double> stockMarket;                   // hashmap represents the stock and its values
-    private HashMap<String, ArrayList<Double>> stockPriceTracker;  // keeps track of the daily prices of each stock
+    private HashMap<String, List<Double>> stockPriceTracker;  // keeps track of the daily prices of each stock
 
     // EFFECTS: constructs a stock market
     public StockMarket() {
@@ -43,7 +43,7 @@ public class StockMarket implements Writable {
     //          store the prices for each stock and adds the initial price to each stock
     private void initializeStockPriceTracker() {
         for (String stock : stockMarket.keySet()) {
-            ArrayList<Double> toAdd = new ArrayList<>();
+            List<Double> toAdd = new ArrayList<>();
             toAdd.add(stockMarket.get(stock));
             stockPriceTracker.put(stock, toAdd);
         }
@@ -61,7 +61,7 @@ public class StockMarket implements Writable {
                 Double newStockVal = stockMarket.get(stock) * multiplier;
                 stockMarket.put(stock, newStockVal);
 
-                ArrayList<Double> priceTrackOfStock = stockPriceTracker.get(stock);
+                List<Double> priceTrackOfStock = stockPriceTracker.get(stock);
                 priceTrackOfStock.add(newStockVal);
                 stockPriceTracker.put(stock, priceTrackOfStock);
             }
@@ -91,7 +91,7 @@ public class StockMarket implements Writable {
 
     // REQUIRES: an existing stock ticker in the stock market
     // EFFECTS: returns the price history of the stock
-    public ArrayList<Double> getAllStockHistory(String stock) {
+    public List<Double> getAllStockHistory(String stock) {
         return stockPriceTracker.get(stock);
     }
 
@@ -106,7 +106,7 @@ public class StockMarket implements Writable {
         JSONObject jsonStockMarket = new JSONObject();
         jsonStockMarket.put("Day", dayInGameTime);
         for (String s : stockMarket.keySet()) {
-            ArrayList<Double> priceList = stockPriceTracker.get(s);
+            List<Double> priceList = stockPriceTracker.get(s);
             JSONArray stockPriceTracker = new JSONArray(priceList);
             jsonStockMarket.put(s, stockPriceTracker);
         }
@@ -127,7 +127,7 @@ public class StockMarket implements Writable {
                 for (int i = 0; i < priceTrackerJson.length(); i++) {
                     priceTrackerList.add(priceTrackerJson.getDouble(i));
                 }
-                stockPriceTracker.put(s, (ArrayList)priceTrackerList);
+                stockPriceTracker.put(s, priceTrackerList);
                 stockMarket.put(s, priceTrackerList.get(priceTrackerList.size() - 1));
             }
 
