@@ -1,7 +1,5 @@
 package persistence;
 
-import model.Investor;
-import model.StockMarket;
 import org.json.JSONObject;
 
 import java.io.File;

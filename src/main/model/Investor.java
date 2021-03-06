@@ -32,6 +32,15 @@ public class Investor implements Writable {
         funds -= addFunds;
     }
 
+    // REQUIRES: name must be a portfolio that exists
+    //           amount > 0
+    // MODIFIES: this
+    // EFFECTS: increases the funds to the specified portfolio by a amount
+    public void addFundsToPortfolio(String name, double amount) {
+        Portfolio toAdd = portfolioMap.get(name);
+        toAdd.addFunds(amount);
+    }
+
     // REQUIRES: the portfolio must be empty (ie. have no stocks)
     // MODIFIES: this
     // EFFECTS: deletes specified portfolio from the investor and adds the portfolio
