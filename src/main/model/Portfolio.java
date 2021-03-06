@@ -61,7 +61,6 @@ public class Portfolio implements Writable {
             stockMap.remove(stock);
         } else {
             toSell.adjustStockQuantity(-quantityToSell, sm);
-//            stockMap.put(stock, toSell);
         }
     }
 
@@ -114,7 +113,7 @@ public class Portfolio implements Writable {
         addStock(sm, toTransfer, quantityToTransfer);
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, stock s
     // EFFECTS: updates all the stock in this portfolio to reflect the most up to date prices
     //          updates the net worth of all stock accordingly
     public void updateStocks(StockMarket sm) {

@@ -1,6 +1,6 @@
 package model;
 
-import exceptions.IncompatiableStockMarketException;
+import exceptions.IncompatibleStockMarketException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
@@ -113,14 +113,15 @@ public class StockMarket implements Writable {
         return jsonStockMarket;
     }
 
+    // MODIFIES: this
     // EFFECTS: loads the stock market data from the JSONObject
-    public void loadFromFile(JSONObject jsonStockMarket) throws IncompatiableStockMarketException {
+    public void loadFromFile(JSONObject jsonStockMarket) throws IncompatibleStockMarketException {
         dayInGameTime = jsonStockMarket.getInt("Day");
         for (String s : jsonStockMarket.keySet()) {
             if (s.equals("Day")) {
                 continue;
             } else if (!containsStock(s)) {
-                throw new IncompatiableStockMarketException();
+                throw new IncompatibleStockMarketException();
             } else {
                 List<Double> priceTrackerList = new ArrayList<>();
                 JSONArray priceTrackerJson = jsonStockMarket.getJSONArray(s);

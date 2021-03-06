@@ -209,7 +209,7 @@ public class StonksApp {
             amount = input.nextDouble();
         }
 
-        investor.addFundsToPortfolio(toAddMoney, amount);
+        investor.loadFundsToPortfolio(toAddMoney, amount);
     }
 
     // MODIFIES: this

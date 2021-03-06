@@ -1,7 +1,7 @@
 package persistence;
 
 import exceptions.InvalidClassTypeException;
-import exceptions.IncompatiableStockMarketException;
+import exceptions.IncompatibleStockMarketException;
 import model.Investor;
 import model.Portfolio;
 import model.Stock;
@@ -21,7 +21,7 @@ public class JsonReaderTest {
         try {
             reader.read();
             fail("Something went wrong");
-        } catch (IncompatiableStockMarketException e) {
+        } catch (IncompatibleStockMarketException e) {
             fail("Something went wrong");
         } catch (InvalidClassTypeException e) {
             fail("Something went wrong");
@@ -36,7 +36,7 @@ public class JsonReaderTest {
         try {
             reader.read();
             fail("Something went wrong");
-        } catch (IncompatiableStockMarketException e) {
+        } catch (IncompatibleStockMarketException e) {
             fail("Something went wrong");
         } catch (InvalidClassTypeException e) {
             // All good, passed test
@@ -53,7 +53,7 @@ public class JsonReaderTest {
             Investor i = (Investor) reader.read();
             assertEquals(i.getInvestorName(), "Empty");
             assertEquals(i.getInvestorFunds(), 10000);
-        } catch (IncompatiableStockMarketException e) {
+        } catch (IncompatibleStockMarketException e) {
             fail("Something went wrong");
         } catch (InvalidClassTypeException e) {
             fail("Something went wrong");
@@ -143,7 +143,7 @@ public class JsonReaderTest {
             fail("Something went wrong");
         } catch (InvalidClassTypeException e) {
             fail("Something went wrong");
-        } catch (IncompatiableStockMarketException e) {
+        } catch (IncompatibleStockMarketException e) {
             fail("Something went wrong");
         }
     }
@@ -162,7 +162,7 @@ public class JsonReaderTest {
                 }
                 assertEquals(sm.getAllStockHistory(s).size(), 1);
             }
-        } catch (IncompatiableStockMarketException e) {
+        } catch (IncompatibleStockMarketException e) {
             fail("Something went wrong");
         } catch (IOException e) {
             fail("Something went wrong");
@@ -185,7 +185,7 @@ public class JsonReaderTest {
                 }
                 assertEquals(sm.getAllStockHistory(s).size(), 4);
             }
-        } catch (IncompatiableStockMarketException e) {
+        } catch (IncompatibleStockMarketException e) {
             fail("Something went wrong");
         } catch (IOException e) {
             fail("Something went wrong");
@@ -204,7 +204,7 @@ public class JsonReaderTest {
         } catch (IOException e) {
             fail("Something went wrong");
             e.printStackTrace();
-        } catch (IncompatiableStockMarketException e) {
+        } catch (IncompatibleStockMarketException e) {
             // All good, test pass
         } catch (InvalidClassTypeException e) {
             fail("Something went wrong");

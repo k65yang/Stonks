@@ -79,9 +79,6 @@ public class StockMarketTest {
         assertEquals(sm.getDay(), 7);
 
         List<Double> gmeHistory = sm.getAllStockHistory("GME");
-//        for (double d : gmeHistory) {
-//            System.out.println(d);
-//        }
 
         assertEquals(gmeHistory.size(), 8);
         assertEquals(gmeHistory.get(0), gmeDay0);

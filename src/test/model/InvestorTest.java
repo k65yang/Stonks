@@ -60,7 +60,7 @@ public class InvestorTest {
         assertTrue(i.getPortfolioMap().containsKey("Long-term"));
         assertEquals(i.getPortfolioMap().size(), 1);
 
-        i.addFundsToPortfolio("Long-term", 5);
+        i.loadFundsToPortfolio("Long-term", 5);
 
         assertEquals(i.getPortfolioMap().get("Long-term").getPortfolioFunds(), 5005);
     }

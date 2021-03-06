@@ -1,7 +1,7 @@
 package persistence;
 
 import exceptions.InvalidClassTypeException;
-import exceptions.IncompatiableStockMarketException;
+import exceptions.IncompatibleStockMarketException;
 import model.Investor;
 import model.StockMarket;
 import org.json.JSONObject;
@@ -13,6 +13,8 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 // Represents a reader that reads workroom from JSON data stored in file
+// Code template for JsonReader from
+// https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 public class JsonReader {
     private String source;
     private String classType;
@@ -23,15 +25,13 @@ public class JsonReader {
         this.source = source;
     }
 
-//    // EFFECTS: reads workroom from file and returns it;
-//    // throws IOException if an error occurs reading data from file
-//    public Investor readInvestor() throws IOException {
-//        String jsonData = readFile(source);
-//        JSONObject jsonObject = new JSONObject(jsonData);
-//        return parseInvestor(jsonObject);
-//    }
-
-    public Writable read() throws IOException, IncompatiableStockMarketException, InvalidClassTypeException {
+    // EFFECTS: reads the classType from the JSON file and returns it;
+    //          throws IOException if an error occurs reading data from file
+    //          throws IncompatibleStockMarketException if the stock market JSON does not
+    //                 match the systems predefined stock market class
+    //          throws InvalidClassTypeException if the specified class type is not valid
+    public Writable read() throws IOException,
+            IncompatibleStockMarketException, InvalidClassTypeException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
 
@@ -50,12 +50,6 @@ public class JsonReader {
         }
     }
 
-//    public StockMarket readStockMarket() throws IOException, IncompatiableStockMarketException {
-//        String jsonData = readFile(source);
-//        JSONObject jsonObject = new JSONObject(jsonData);
-//        return parseStockMarket(jsonObject);
-//    }
-
     // EFFECTS: reads source file as string and returns it
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
@@ -66,19 +60,4 @@ public class JsonReader {
 
         return contentBuilder.toString();
     }
-//
-//    // EFFECTS: parses workroom from JSON object and returns it
-//    private Investor parseInvestor(JSONObject jsonObject) {
-//        String name = jsonObject.getString("Investor");
-//        double funds = jsonObject.getDouble("Total funds");
-//        Investor i = new Investor(name, funds);
-//        i.setInvestorFromFile(jsonObject);
-//        return i;
-//    }
-//
-//    private StockMarket parseStockMarket(JSONObject jsonObject) throws IncompatiableStockMarketException {
-//        StockMarket sm = new StockMarket();
-//        sm.loadFromFile(jsonObject);
-//        return sm;
-//    }
 }

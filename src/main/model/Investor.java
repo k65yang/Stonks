@@ -32,22 +32,6 @@ public class Investor implements Writable {
         funds -= addFunds;
     }
 
-    // Special method to be used when loading from file
-    public Portfolio addPortfolioFromFile(String name, double funds) {
-        Portfolio toAdd  = new Portfolio(name, funds);
-        portfolioMap.put(name, toAdd);
-        return toAdd;
-    }
-
-    // REQUIRES: name must be a portfolio that exists
-    //           amount > 0
-    // MODIFIES: this
-    // EFFECTS: increases the funds to the specified portfolio by a amount
-    public void addFundsToPortfolio(String name, double amount) {
-        Portfolio toAdd = portfolioMap.get(name);
-        toAdd.addFunds(amount);
-    }
-
     // REQUIRES: the portfolio must be empty (ie. have no stocks)
     // MODIFIES: this
     // EFFECTS: deletes specified portfolio from the investor and adds the portfolio
@@ -57,7 +41,7 @@ public class Investor implements Writable {
         portfolioMap.remove(name);
     }
 
-    // MODIFIES: a portfolio p
+    // MODIFIES: portfolio p
     // EFFECTS: updates the portfolio using the new prices from the stock market
     public void updateAllPortfolios(StockMarket sm) {
         for (Portfolio p : portfolioMap.values()) {
@@ -117,12 +101,22 @@ public class Investor implements Writable {
         return jsonPortfolio;
     }
 
+    // MODIFIES: this
     // EFFECTS: loads the investor data from the JSONObject
     public void loadInvestorFromFile(JSONObject json) {
         JSONObject jsonPortfolio = json.getJSONObject("Portfolios");
         for (String key : jsonPortfolio.keySet()) {
-            Portfolio p = addPortfolioFromFile(key, 0.0);
+            Portfolio p = loadPortfolioFromFile(key, 0.0);
             p.loadPortfolioFromFile(jsonPortfolio.getJSONObject(key));
         }
+    }
+
+    // Special method to be used when loading from file
+    // MODIFIES: this
+    // EFFECTS: creates a new portfolio with name and funds
+    public Portfolio loadPortfolioFromFile(String name, double funds) {
+        Portfolio toAdd  = new Portfolio(name, funds);
+        portfolioMap.put(name, toAdd);
+        return toAdd;
     }
 }

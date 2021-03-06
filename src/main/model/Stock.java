@@ -87,6 +87,7 @@ public class Stock implements Writable {
         return jsonValueTracker;
     }
 
+    // MODIFIES: this
     // EFFECTS: loads the stock data from the JSONObject
     public void loadStockDataFromFile(JSONObject jsonStock) {
         name = jsonStock.getString("Stock Name");
