@@ -24,10 +24,14 @@ This is a neat little project that I am doing mainly because most of the stock t
 
 The following are some hypothetical user stories of this application.
 
-- Dr. Isulo (an alien Computer Science professor) has just arrived on earth and is very poor. He heard that the stock market is a great way to earn money, however, he has a very limited amount of money and no experience in stock trading. This app will be a perfect trainer for him as he can better understand the market and gain more experience in trading, without the risk of losing all his money!
+- As a user, I am new to stock trading and I want to gain some more experience before I trade with real money. This app is perfect because I can simuate a real stock trading envrionment and I do not have to use real money.
 
-- After defeating Voldemort, Harry Potter decided in invest the galleons which is parents left him in the stock market (because why not?). With this app, he is able to obtain a sense of organization because Stonks allows the him to to create and remove multiple portfolios to seperate his stocks by category. He currently has several portfolios: short-term, long-term, high yield dividends. In the future, he plans to add a crypto portfolio and remove his short-term portfolio.
+- As a user, I may want to have different portfolios to store my stock in various categories. For example, I may want a "short-term" portfolio and and "long-term" portfolio. This app allows me to add and remove portfolios.
 
-- Ted Cruz (aka the Zodiac Killer) enjoys the portfolio functionality of this app. Not only does this app give advanced statistics of portfolio health, he has the ability to buy, sell, or transfer (ie. add/remove) stocks from any of his portfolios nearly instantaneously. The speed of these transactions allows him to continually earn money and avoid questions about himself.
+- As a user, I want to be able to control what stocks I buy and sell in each of my portfolios. With this app, I am able to buy and sell stocks from the stock market (adding/removing stocks from a portfolio), as well as transferring stock from one portfolio to another.
 
-- Mark Zuckerberg is a machine (no seriously, he's a robot). To make even more money, he uses AI to predict market behaviours and make investments accordingly. He favourite application to monitor market trends is Stonks!. It has a very versatile price tracker which allows the Mark to quickly extract historical performance data of a stock to analyze.
+- As a user, I would like to see the performance of a stock with respect to time. This app keeps track of the changes in the stock price and it is very easy for me to extract that information to visualize and inform myself on whether or not I want to buy a particular stock.
+
+- As a user, I would like to save my progress. In other words, I want to be able to store my invsestor profile (inculding portfolio, stocks, stock market state) before I close out of the app. Data persistance has been implemented in this lab such that progress can be stored in a JSON file.
+
+- As a user, I want to be able to load an investor profile that I have saved. This program has the funcationality to read saved JSON files and load the profile from the point which I saved, so that I can continue making money!
