@@ -1,10 +1,16 @@
 package ui;
 
+import exceptions.IncompatibleStockMarketException;
+import exceptions.InvalidClassTypeException;
 import model.Investor;
 import model.Portfolio;
 import model.Stock;
 import model.StockMarket;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -93,6 +99,8 @@ public class StonksApp {
         System.out.println("\tp -> view an exiting portfolio");
         System.out.println("\ts -> go to the stock market menu");
         System.out.println("\tu -> update the day in game time");
+        System.out.println("\tf -> save to file");
+        System.out.println("\tl -> load from file");
         System.out.println("\tq -> quit");
     }
 
@@ -152,6 +160,10 @@ public class StonksApp {
             keyEventSInvestorMenu();
         } else if (command.equals("u")) {
             keyEventUInvestorMenu();
+        } else if (command.equals("f")) {
+            keyEventFInvestorMenu();
+        } else if (command.equals("l")) {
+            keyEventLInvestorMenu();
         } else if (command.equals("q")) {
             keyEventQ();
         } else {
@@ -249,6 +261,7 @@ public class StonksApp {
         activeMenu = 3;
     }
 
+    // EFFECTS: updates the day in game time
     private void keyEventUInvestorMenu() {
         System.out.println("Enter the number of days you which to increment:");
         int days = input.nextInt();
@@ -260,6 +273,58 @@ public class StonksApp {
 
         sm.updateStockPrice(days);
         investor.updateAllPortfolios(sm);
+    }
+
+    // EFFECTS: save the current game state to file
+    private void keyEventFInvestorMenu() {
+        System.out.println("Please type the name of this save:");
+        String name = input.next();
+
+        String saveInvestorName = "Investor-" + name;
+        String saveStockMarketName = "StockMarket-" + name;
+
+        String investorDestination = "./data/" + saveInvestorName + ".json";
+        String stockMarketDestination = "./data/" + saveStockMarketName + ".json";
+
+        try {
+            JsonWriter writerInvestor = new JsonWriter(investorDestination);
+            JsonWriter writerStockMarket = new JsonWriter(stockMarketDestination);
+
+            writerInvestor.open();
+            writerInvestor.write(investor);
+            writerInvestor.close();
+
+            writerStockMarket.open();
+            writerStockMarket.write(sm);
+            writerStockMarket.close();
+
+            System.out.println("Investor file saved as: " + saveInvestorName);
+            System.out.println("Stock market file saved as: " + saveStockMarketName);
+        } catch (FileNotFoundException e) {
+            System.out.println("Sorry, an error has occurred. Bringing you back to the main menu.");
+        }
+    }
+
+    private void keyEventLInvestorMenu() {
+        System.out.println("Please type the name of the save to load (the name after the hyphen, ie. Investor-***):");
+        String name = input.next();
+
+        String investorDestination = "./data/Investor-" + name + ".json";
+        String stockMarketDestination = "./data/StockMarket-" + name + ".json";
+
+        try {
+            JsonReader readerInvestor = new JsonReader("investor", investorDestination);
+            JsonReader readerStockMarket = new JsonReader("stockmarket", stockMarketDestination);
+
+            investor = (Investor) readerInvestor.read();
+            sm = (StockMarket) readerStockMarket.read();
+        } catch (Exception e) {
+            System.out.println("Sorry, an error has occurred. Bringing you back to the main menu.");
+        }
+
+
+
+
     }
 
     // EFFECTS: stops the application
