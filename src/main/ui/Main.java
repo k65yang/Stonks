@@ -1,7 +1,5 @@
 package ui;
 
-import ui.GUI.StonksGUI;
-
 public class Main {
 
     public static void main(String[] args) {

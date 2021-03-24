@@ -1,4 +1,4 @@
-package ui.GUI;
+package ui.gui;
 
 import model.Investor;
 
@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 public class HomePageGUI extends StonksGUI {
     private String name;
 
-    private JPanel panel;
     private JTextField userText;
     private JTextField fundsText;
     private JTextField loadText;
@@ -22,11 +21,8 @@ public class HomePageGUI extends StonksGUI {
         initializePageComponents();
     }
 
-    public JPanel getPanel() {
-        return panel;
-    }
 
-    public JPanel initializePageComponents() {
+    public void initializePageComponents() {
         Border border = BorderFactory.createLineBorder(Color.BLUE, 1);
 
         JLabel homePageHeading1 = new JLabel("To begin, create a new investor profile");
@@ -44,7 +40,6 @@ public class HomePageGUI extends StonksGUI {
         userText = new JTextField();
         userText.setBounds(210, 60, 165, 25);
         userText.setBorder(border);
-        name = userText.getText();
         panel.add(userText);
 
         JLabel fundsLabel = new JLabel("Enter starting funds:");
@@ -56,17 +51,19 @@ public class HomePageGUI extends StonksGUI {
         fundsText = new JTextField();
         fundsText.setBounds(210, 95, 165, 25);
         fundsText.setBorder(border);
-        String fundsAsString = fundsText.getText();
         panel.add(fundsText);
+
 
         JButton createInvestorButton = new JButton(new AbstractAction("Create Investor!") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("here");
+                String fundsAsString = fundsText.getText();
                 if (!isDouble(fundsAsString)) {
-                    creationErrorLabel.setText("ERROR: funds is not a string");
+                    creationErrorLabel.setText("ERROR: funds is not a double.");
                 } else {
+                    name = userText.getText();
                     investor = new Investor(name, Double.parseDouble(fundsAsString));
+                    stonksGUIRunner.displayActivePage(1);
                 }
             }
         });
@@ -107,16 +104,5 @@ public class HomePageGUI extends StonksGUI {
         loadErrorLabel.setFont(textFont);
         loadErrorLabel.setBorder(border);
         panel.add(loadErrorLabel);
-
-        return panel;
-    }
-
-    private boolean isDouble(String toCheck) {
-        try {
-            Double.parseDouble(toCheck);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 }
