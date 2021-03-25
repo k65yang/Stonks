@@ -2,6 +2,7 @@ package ui.gui;
 
 import model.Investor;
 import model.Portfolio;
+import model.StockMarket;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -16,9 +17,13 @@ public class InvestorPageGUI extends StonksGUI {
     private JLabel errorLabel;
     private String currentAction;
 
-    public InvestorPageGUI(JPanel panel, Investor investor) {
-        this.panel = panel;
+    public InvestorPageGUI(Investor investor, StockMarket sm) {
+        super();
+//        this.panel = panel;
+//        panel = new JPanel();
+//        panel.setLayout(null);
         this.investor = investor;
+        this.sm = sm;
         initializePageComponents();
         currentAction = null;
     }
@@ -142,6 +147,15 @@ public class InvestorPageGUI extends StonksGUI {
                     } else {
                         errorLabel.setText("Invalid entry. Double check spelling.");
                     }
+                } else if (currentAction == "p") {
+                    if (investor.getPortfolioMap().containsKey(fromSubmit)) {
+                        output = fromSubmit;
+                        stonksGUIRunner.displayActivePage(2);
+                    } else {
+                        errorLabel.setText("Invalid entry. Double check spelling.");
+                    }
+                } else if (currentAction == "s") {
+                    stonksGUIRunner.displayActivePage(3);
                 }
                 submitText.setText(null);
             }

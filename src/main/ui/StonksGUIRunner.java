@@ -1,9 +1,8 @@
 package ui;
 
 import model.Investor;
-import ui.gui.HomePageGUI;
-import ui.gui.InvestorPageGUI;
-import ui.gui.StonksGUI;
+import model.StockMarket;
+import ui.gui.*;
 
 import javax.swing.*;
 
@@ -14,6 +13,7 @@ public class StonksGUIRunner {
     private JFrame frame;
     private JPanel panel;
     private Investor investor;
+    private StockMarket sm;
     private boolean firstRun = true;
 
     public StonksGUIRunner() {
@@ -29,31 +29,47 @@ public class StonksGUIRunner {
         investor.addPortfolio("test1", 5000);
         investor.addPortfolio("test2", 5000);
 
+        sm = new StockMarket();
+
+        investor.getPortfolioMap().get("test1").buyStock(sm, "GME", 5);
+
         displayActivePage(1);
     }
 
     public void displayActivePage(int activePage) {
-        panel.removeAll();
-        panel.setLayout(null);
+//        panel.removeAll();
+//        panel.setLayout(null);
         //frame.removeAll();
         if (activePage == 0) {
-            activePageGUI = new HomePageGUI(panel);
+            activePageGUI = new HomePageGUI();
             activePageGUI.setStonksGUIRunner(this);
-            panel = activePageGUI.getPanel();
-            frame.add(panel);
-            frame.setVisible(true);
-//            runOnce = true;
+            refreshScreen();
 
         } else if (activePage == 1) {
             //investor = activePageGUI.getInvestor();
+//            sm = activePageGUI.getStockMarket();
             //activePageGUI = new InvestorPageGUI(panel, investor);
-            activePageGUI = new InvestorPageGUI(panel, investor);
-            panel = activePageGUI.getPanel();
-            frame.getContentPane().removeAll();
-            frame.repaint();
-            frame.add(panel);
-            frame.validate();
-            frame.setVisible(true);
+            activePageGUI = new InvestorPageGUI(investor, sm);
+            activePageGUI.setStonksGUIRunner(this);
+            refreshScreen();
+        } else if (activePage == 2) {
+            String portfolioName = activePageGUI.getOutput();
+            activePageGUI = new PortfolioPageGUI(investor, portfolioName, sm);
+            activePageGUI.setStonksGUIRunner(this);
+            refreshScreen();
+        } else if (activePage == 3) {
+            activePageGUI = new StockMarketPageGUI(activePageGUI.getStockMarket());
+            activePageGUI.setStonksGUIRunner(this);
+            refreshScreen();
         }
+    }
+
+    private void refreshScreen() {
+        panel = activePageGUI.getPanel();
+        frame.getContentPane().removeAll();
+        frame.repaint();
+        frame.add(panel);
+        frame.validate();
+        frame.setVisible(true);
     }
 }

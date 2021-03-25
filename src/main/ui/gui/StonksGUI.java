@@ -1,14 +1,17 @@
 package ui.gui;
 
 import model.Investor;
+import model.StockMarket;
 import ui.StonksGUIRunner;
 
 import javax.swing.*;
 import java.awt.*;
 
 public abstract class StonksGUI {
+    protected String output;
     protected JPanel panel;
     protected Investor investor;
+    protected StockMarket sm;
     protected StonksGUIRunner stonksGUIRunner;
     protected final Font titleFont = new Font("SansSerif", Font.BOLD, 36);
     protected final Font headingFont = new Font("SansSerif", Font.BOLD, 24);
@@ -17,48 +20,13 @@ public abstract class StonksGUI {
     protected final Font miniPrintoutFont = new Font("DialogInput", Font.BOLD, 14);
 
     public StonksGUI() {
+        panel = new JPanel();
+        panel.setLayout(null);
     }
 
-    private void displayActivePage(int activePage) {
-        // create the new frame
-        JFrame frame = new JFrame();
-
-        JButton createProfileButton = new JButton("Create investor profile");
-
-        JPanel panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(30,30,10,30));
-        panel.setLayout(new GridLayout(0,2));
-        panel.add(createProfileButton);
-
-        frame.add(panel, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,500);
-        frame.setTitle("Stonks - A Stocks Investment Simulator");
-        //frame.pack();
-        frame.setVisible(true);
-
+    public String getOutput() {
+        return output;
     }
-
-//    private void displayActivePageTest(int activePage) {
-//        // create the new frame
-//        JFrame frame = new JFrame();
-//
-//        // set up contents plane
-//        JPanel panel = new JPanel();
-//        panel.setLayout(null);
-//
-//        StonksGUI homePageGUI = new HomePageGUI(panel);
-//        panel = homePageGUI.getPanel();
-//
-//
-//        // display the window
-//        frame.add(panel);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(700,500);
-//        frame.setTitle("Stonks - A Stocks Investment Simulator");
-//        frame.setResizable(false);
-//        frame.setVisible(true);
-//    }
 
     public JPanel getPanel() {
         return panel;
@@ -68,12 +36,20 @@ public abstract class StonksGUI {
         return investor;
     }
 
+    public StockMarket getStockMarket() {
+        return sm;
+    }
+
     public void setStonksGUIRunner(StonksGUIRunner toSet) {
         this.stonksGUIRunner = toSet;
     }
 
     public void setInvestor(Investor investor) {
         this.investor = investor;
+    }
+
+    public void setOutput(String toSet) {
+        output = toSet;
     }
 
     public void clearPanel() {

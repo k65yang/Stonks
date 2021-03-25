@@ -1,6 +1,7 @@
 package ui.gui;
 
 import model.Investor;
+import model.StockMarket;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -16,8 +17,9 @@ public class HomePageGUI extends StonksGUI {
     private JLabel creationErrorLabel;
     private JLabel loadErrorLabel;
 
-    public HomePageGUI(JPanel panel) {
-        this.panel = panel;
+    public HomePageGUI() {
+        super();
+//        panel = new JPanel();
         initializePageComponents();
     }
 
@@ -63,6 +65,7 @@ public class HomePageGUI extends StonksGUI {
                 } else {
                     name = userText.getText();
                     investor = new Investor(name, Double.parseDouble(fundsAsString));
+                    sm = new StockMarket();
                     stonksGUIRunner.displayActivePage(1);
                 }
             }
