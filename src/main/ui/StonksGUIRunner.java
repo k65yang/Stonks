@@ -19,7 +19,7 @@ public class StonksGUIRunner {
     public StonksGUIRunner() {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700,500);
+        frame.setSize(560,500);
         frame.setTitle("Stonks - A Stocks Investment Simulator");
         frame.setResizable(false);
 
@@ -32,8 +32,9 @@ public class StonksGUIRunner {
         sm = new StockMarket();
 
         investor.getPortfolioMap().get("test1").buyStock(sm, "GME", 5);
+        investor.getPortfolioMap().get("test2").buyStock(sm, "AAPL", 2);
 
-        displayActivePage(1);
+        displayActivePage(3);
     }
 
     public void displayActivePage(int activePage) {
@@ -53,12 +54,18 @@ public class StonksGUIRunner {
             activePageGUI.setStonksGUIRunner(this);
             refreshScreen();
         } else if (activePage == 2) {
-            String portfolioName = activePageGUI.getOutput();
+            //investor = activePageGUI.getInvestor();
+            //sm = activePageGUI.getStockMarket();
+            //String portfolioName = activePageGUI.getOutput();
+            String portfolioName = "test1";
             activePageGUI = new PortfolioPageGUI(investor, portfolioName, sm);
             activePageGUI.setStonksGUIRunner(this);
             refreshScreen();
         } else if (activePage == 3) {
-            activePageGUI = new StockMarketPageGUI(activePageGUI.getStockMarket());
+            //investor = activePageGUI.getInvestor();
+            //sm = activePageGUI.getStockMarket();
+            sm.updateStockPrice(4);
+            activePageGUI = new StockMarketPageGUI(sm);
             activePageGUI.setStonksGUIRunner(this);
             refreshScreen();
         }

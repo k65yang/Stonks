@@ -65,6 +65,15 @@ public abstract class StonksGUI {
         }
     }
 
+    protected boolean isInteger(String toCheck) {
+        try {
+            Integer.parseInt(toCheck);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public abstract void initializePageComponents();
 
 }

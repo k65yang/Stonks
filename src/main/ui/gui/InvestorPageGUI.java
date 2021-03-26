@@ -40,7 +40,7 @@ public class InvestorPageGUI extends StonksGUI {
 
         loadInvestorInfoArea(false);
 
-        JButton addPortfolioButton = new JButton(new AbstractAction("Add new portfolio") {
+        JButton addPortfolioButton = new JButton(new AbstractAction("Add New Portfolio") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 submitLabel.setText("Enter name of new portfolio and funds in the format NAME/FUNDS");
@@ -51,7 +51,7 @@ public class InvestorPageGUI extends StonksGUI {
         addPortfolioButton.setFont(textFont);
         panel.add(addPortfolioButton);
 
-        JButton addFundsToPorfolioButton = new JButton(new AbstractAction("Add funds to portfolio") {
+        JButton addFundsToPorfolioButton = new JButton(new AbstractAction("Add Funds To Portfolio") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 submitLabel.setText("Enter portfolio name and funds to add in the format NAME/FUNDS");
@@ -73,7 +73,7 @@ public class InvestorPageGUI extends StonksGUI {
         removePortfolioButton.setFont(textFont);
         panel.add(removePortfolioButton);
 
-        JButton viewPortfolioButton = new JButton(new AbstractAction("View existing portfolio") {
+        JButton viewPortfolioButton = new JButton(new AbstractAction("View Existing Portfolio") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 submitLabel.setText("Enter portfolio name to view");
@@ -84,36 +84,46 @@ public class InvestorPageGUI extends StonksGUI {
         viewPortfolioButton.setFont(textFont);
         panel.add(viewPortfolioButton);
 
-        JButton stockmarketButton = new JButton(new AbstractAction("Go to StockMarket") {
+        JButton mergePortfolioButton = new JButton(new AbstractAction("Merge All Portfolios") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                submitLabel.setText("Click the submit button");
-                currentAction = "s";
+                submitText.setText("Enter name of portfolio (must currently exist)");
+                currentAction = "g";
             }
         });
-        stockmarketButton.setBounds(290, 220, 250, 25);
+        mergePortfolioButton.setBounds(290, 220, 250, 25);
+        mergePortfolioButton.setFont(textFont);
+        panel.add(mergePortfolioButton);
+
+        JButton stockmarketButton = new JButton(new AbstractAction("Go To StockMarket") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stonksGUIRunner.displayActivePage(3);
+            }
+        });
+        stockmarketButton.setBounds(290, 255, 250, 25);
         stockmarketButton.setFont(textFont);
         panel.add(stockmarketButton);
 
-        JButton updateDayButton = new JButton(new AbstractAction("Update game day") {
+        JButton updateDayButton = new JButton(new AbstractAction("Update Game Day") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 submitLabel.setText("Enter the number of days to update");
                 currentAction = "u";
             }
         });
-        updateDayButton.setBounds(290, 255, 250, 25);
+        updateDayButton.setBounds(290, 290, 250, 25);
         updateDayButton.setFont(textFont);
         panel.add(updateDayButton);
 
-        JButton saveButton = new JButton(new AbstractAction("Save game") {
+        JButton saveButton = new JButton(new AbstractAction("Save Game") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 submitLabel.setText("Enter the name of this save");
                 currentAction = "f";
             }
         });
-        saveButton.setBounds(290, 290, 250, 25);
+        saveButton.setBounds(290, 325, 250, 25);
         saveButton.setFont(textFont);
         panel.add(saveButton);
 
@@ -121,7 +131,7 @@ public class InvestorPageGUI extends StonksGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String fromSubmit = submitText.getText();
-                if (currentAction == "a") {
+                if (currentAction == "a") { // add portfolio
                     String[] tokens = fromSubmit.split("/");
                     if (tokens.length == 2 && isDouble(tokens[1]) &&
                             Double.parseDouble(tokens[1]) <= investor.getInvestorFunds()) {
@@ -130,7 +140,7 @@ public class InvestorPageGUI extends StonksGUI {
                     } else {
                         errorLabel.setText("Invalid entry. Double check format is correct.");
                     }
-                } else if (currentAction == "m") {
+                } else if (currentAction == "m") { // add funds to portfolio
                     String[] tokens = fromSubmit.split("/");
                     if (tokens.length == 2 && isDouble(tokens[1]) &&
                             Double.parseDouble(tokens[1]) <= investor.getInvestorFunds() &&
@@ -140,27 +150,39 @@ public class InvestorPageGUI extends StonksGUI {
                     } else {
                         errorLabel.setText("Invalid entry. Double check input.");
                     }
-                } else if (currentAction == "r") {
+                } else if (currentAction == "r") { // remove portfolio
                     if (investor.getPortfolioMap().containsKey(fromSubmit)) {
                         investor.removePortfolio(fromSubmit);
                         loadInvestorInfoArea(true);
                     } else {
                         errorLabel.setText("Invalid entry. Double check spelling.");
                     }
-                } else if (currentAction == "p") {
+                } else if (currentAction == "p") { // go to portfolio menu
                     if (investor.getPortfolioMap().containsKey(fromSubmit)) {
                         output = fromSubmit;
                         stonksGUIRunner.displayActivePage(2);
                     } else {
                         errorLabel.setText("Invalid entry. Double check spelling.");
                     }
-                } else if (currentAction == "s") {
-                    stonksGUIRunner.displayActivePage(3);
+                } else if (currentAction == "g") {
+                    if (investor.getPortfolioMap().containsKey(fromSubmit)) {
+                        Portfolio merged = investor.getPortfolioMap().get(fromSubmit);
+                        // currently broken
+                    }
+
+                } else if (currentAction == "u") {
+                    if (isInteger(fromSubmit)) {
+                        sm.updateStockPrice(Integer.parseInt(fromSubmit));
+                        investor.updateAllPortfolios(sm);
+                        loadInvestorInfoArea(true);
+                    } else {
+                        errorLabel.setText("Invalid entry. Integer values only.");
+                    }
                 }
                 submitText.setText(null);
             }
         });
-        submitButton.setBounds(290, 325, 250, 25);
+        submitButton.setBounds(415, 400, 125, 25);
         submitButton.setFont(textFont);
         panel.add(submitButton);
 
@@ -170,9 +192,8 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(submitLabel);
 
         submitText = new JTextField();
-        submitText.setBounds(10, 400, 530, 25);
+        submitText.setBounds(10, 400, 405, 25);
         submitText.setFont(textFont);
-//        submitText.setEditable(false);
         panel.add(submitText);
 
         errorLabel = new JLabel("");

@@ -27,14 +27,14 @@ public class StockMarket implements Writable {
     // EFFECTS: adds ten stocks to the stock market
     private void initializeMarket() {
         stockMarket.put("MMM", 175.66);
-        stockMarket.put("AMC", 13.26);
+        stockMarket.put("AMC", 92.26);
         stockMarket.put("GME", 325.00);
-        stockMarket.put("NVDA", 515.59);
-        stockMarket.put("GOOG", 1835.74);
-        stockMarket.put("AMZN", 3206.20);
+        stockMarket.put("NVDA", 495.59);
+        stockMarket.put("GOOG", 600.74);
+        stockMarket.put("AMZN", 551.20);
         stockMarket.put("AAPL", 131.96);
-        stockMarket.put("TSLA", 793.53);
-        stockMarket.put("PHUN", 2.08);
+        stockMarket.put("TSLA", 373.53);
+        stockMarket.put("PHUN", 71.08);
         stockMarket.put("TEST", 100.00);
     }
 
@@ -43,7 +43,7 @@ public class StockMarket implements Writable {
     //          store the prices for each stock and adds the initial price to each stock
     private void initializeStockPriceTracker() {
         for (String stock : stockMarket.keySet()) {
-            List<Double> toAdd = new ArrayList<>();
+            List<Double> toAdd = new LinkedList<>();
             toAdd.add(stockMarket.get(stock));
             stockPriceTracker.put(stock, toAdd);
         }
