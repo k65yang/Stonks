@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 
 // Stonks (stock market simulator) application
-public class StonksApp {
+public class StonksCommandLine {
     private Scanner input;
     private Investor investor;
     private StockMarket sm;
@@ -28,7 +28,7 @@ public class StonksApp {
 
     // MODIFIES: this
     // EFFECTS: runs the Stonks application
-    public StonksApp(String name, Double startingFunds) {
+    public StonksCommandLine(String name, Double startingFunds) {
         investor = new Investor(name, startingFunds);
         runStonks();
     }

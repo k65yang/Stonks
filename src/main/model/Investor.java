@@ -58,6 +58,22 @@ public class Investor implements Writable {
         }
     }
 
+    // REQUIRES: name must be a name of a portfolio that exists
+    // MODIFIES: this
+    // EFFECTS: contents of all portfolios will be transferred into the specified portfolio
+    public void mergeIntoOnePortfolio(String name, StockMarket sm) {
+        Portfolio merged = portfolioMap.get(name);
+        for (Portfolio p : portfolioMap.values()) {
+            if (p.getPortfolioName() != merged.getPortfolioName()) {
+                for (Stock s : p.getPortfolioMap().values()) {
+                    merged.transferStock(sm, p, s.getStockName(), s.getQuantityOfStock());
+                }
+                merged.addFunds(p.getPortfolioFunds());
+            }
+        }
+        portfolioMap.keySet().removeIf(k -> !(k.equals(name)));
+    }
+
 
     // MODIFIES: this
     // EFFECTS: sets the active portfolio to the specified portfolio, and returns it

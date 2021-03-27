@@ -1,74 +1,278 @@
 package ui.gui;
 
-import model.Stock;
+import model.Investor;
 import model.StockMarket;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.font.TextAttribute;
+import java.awt.geom.Rectangle2D;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
 
 public class StockMarketPageGUI extends StonksGUI {
+    private JTable stockTable;
+    private JFreeChart chart;
+    private ChartPanel chartPanel;
     private XYSeriesCollection stockDataSet;
+    private JTextField submitText;
+    private JLabel submitLabel;
+    private JLabel errorLabel;
+    private JLabel dayLabel;
+    private String currentAction;
 
-    public StockMarketPageGUI(StockMarket stockMarket) {
+    public StockMarketPageGUI(Investor investor, StockMarket stockMarket) {
         super();
         this.sm = stockMarket;
-        createDataSets(false);
+        this.investor = investor;
         initializePageComponents();
     }
 
     @Override
     public void initializePageComponents() {
-        Border border = BorderFactory.createLineBorder(Color.BLUE, 1);
+        loadLabels();
+        loadStockPriceTable(false);
+        loadButtons();
+        loadTextFields();
+    }
 
+    private void loadTextFields() {
+        submitText = new JTextField();
+        submitText.setBounds(10, 400, 405, 25);
+        submitText.setFont(textFont);
+        panel.add(submitText);
+    }
+
+    private void loadButtons() {
+        loadButtonStockPlot();
+        loadButtonUpdateDay();
+        loadButtonInvestorPage();
+        loadButtonSave();
+        loadButtonSubmit();
+    }
+
+    private void loadButtonSubmit() {
+        JButton submitButton = new JButton(new AbstractAction("Submit") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionProcedures();
+            }
+        });
+        submitButton.setBounds(415, 400, 125, 25);
+        submitButton.setFont(textFont);
+        panel.add(submitButton);
+    }
+
+    private void actionProcedures() {
+        String fromSubmit = submitText.getText();
+        if (currentAction.equals("u")) {
+            actionUpdateDay(fromSubmit);
+        } else if (currentAction.equals("f")) {
+            actionSave(fromSubmit);
+        } else {
+            errorLabel.setText("Select an appropriate option!");
+        }
+        submitText.setText(null);
+    }
+
+    private void actionSave(String fromSubmit) {
+        try {
+            saveFile(fromSubmit);
+        } catch (FileNotFoundException exception) {
+            errorLabel.setText("Error occurred during save, please try again");
+        }
+    }
+
+    private void actionUpdateDay(String fromSubmit) {
+        if (isInteger(fromSubmit)) {
+            sm.updateStockPrice(Integer.parseInt(fromSubmit));
+            investor.updateAllPortfolios(sm);
+            loadStockPriceTable(true);
+            dayLabel.setText("Current Day: " + sm.getDay());
+        } else {
+            errorLabel.setText("Invalid entry. Integer values only.");
+        }
+    }
+
+    private void loadButtonSave() {
+        JButton saveButton = new JButton(new AbstractAction("Save Game") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                submitLabel.setText("Enter name of save:");
+                currentAction = "f";
+            }
+        });
+        saveButton.setBounds(270, 215, 250, 25);
+        saveButton.setFont(textFont);
+        saveButton.setBorder(border);
+        panel.add(saveButton);
+    }
+
+    private void loadButtonInvestorPage() {
+        JButton investorButton = new JButton(new AbstractAction("Return To Investor Menu") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stonksAppRunner.displayActivePage(1);
+            }
+        });
+        investorButton.setBounds(270, 180, 250, 25);
+        investorButton.setFont(textFont);
+        investorButton.setBorder(border);
+        panel.add(investorButton);
+    }
+
+    private void loadButtonUpdateDay() {
+        JButton updateDayButton = new JButton(new AbstractAction("Update Game Day") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                submitLabel.setText("Enter number of days to update:");
+                currentAction = "u";
+            }
+        });
+        updateDayButton.setBounds(270, 110, 250, 25);
+        updateDayButton.setFont(textFont);
+        updateDayButton.setBorder(border);
+        panel.add(updateDayButton);
+    }
+
+    private void loadButtonStockPlot() {
+        JButton graphButton = new JButton(new AbstractAction("See Plot of Stocks") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createDataSets(false);
+
+                JFrame popup = new JFrame();
+                popup.setSize(910,610);
+                popup.setTitle("Stonks Stock Market");
+
+                JPanel popupPanel = new JPanel();
+                popupPanel.setLayout(null);
+
+                chart = ChartFactory.createXYLineChart("Stock Market Price Graph", "Day", "Stock Price", stockDataSet);
+                customizeChart();
+
+                popupPanel.add(chartPanel);
+                popup.add(popupPanel);
+                popup.validate();
+                popup.setResizable(false);
+                popup.setVisible(true);
+            }
+        });
+        graphButton.setBounds(270, 145, 250, 25);
+        graphButton.setFont(textFont);
+        graphButton.setBorder(border);
+        panel.add(graphButton);
+    }
+
+    private void loadLabels() {
+        loadLabelsHeadings();
+        loadLabelDayCounter();
+        loadLabelSubmit();
+        loadLabelError();
+    }
+
+    private void loadLabelError() {
+        errorLabel = new JLabel("");
+        errorLabel.setBounds(10, 430, 530, 20);
+        errorLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        errorLabel.setForeground(Color.RED);
+        errorLabel.setBorder(border);
+        panel.add(errorLabel);
+    }
+
+    private void loadLabelSubmit() {
+        submitLabel = new JLabel("Select an option above");
+        submitLabel.setBounds(10, 380, 530, 20);
+        submitLabel.setFont(miniFont);
+        panel.add(submitLabel);
+    }
+
+    private void loadLabelDayCounter() {
+        dayLabel = new JLabel("Current Day: " + sm.getDay());
+        dayLabel.setBounds(270, 70, 250, 28);
+        dayLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+        panel.add(dayLabel);
+    }
+
+    private void loadLabelsHeadings() {
         JLabel homePageHeading1 = new JLabel("Welcome to the Stock Market!");
         homePageHeading1.setBounds(10, 20, 530, 30);
         homePageHeading1.setFont(headingFont);
         homePageHeading1.setBorder(border);
         panel.add(homePageHeading1);
 
-        JLabel subHeadingLable = new JLabel("Current Stock Tickers");
-        subHeadingLable.setBounds(10, 70, 300, 28);
-        Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
+        JLabel subHeadingLabel = new JLabel("Current Stock Tickers");
+        subHeadingLabel.setBounds(10, 70, 300, 28);
+        Map<TextAttribute, Integer> fontAttributes = new HashMap<>();
         fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-        subHeadingLable.setFont(new Font("SansSerif", Font.BOLD, 20).deriveFont(fontAttributes));
-        panel.add(subHeadingLable);
+        subHeadingLabel.setFont(new Font("SansSerif", Font.BOLD, 20).deriveFont(fontAttributes));
+        panel.add(subHeadingLabel);
+    }
 
-        JButton testButton = new JButton(new AbstractAction("See Plot of Stocks") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame popup = new JFrame();
-                popup.setSize(560,500);
+    private void customizeChart() {
+        chartPanel = new ChartPanel(chart);
+        chartPanel.setBounds(10, 10, 880, 560);
+        chartPanel.setBorder(border);
 
-                JPanel popupPanel = new JPanel();
+        XYPlot plot = chart.getXYPlot();
+        plot.setRenderer(createRenderer());
+        plot.setBackgroundPaint(Color.DARK_GRAY);
+        plot.setRangeGridlinesVisible(true);
+        plot.setRangeGridlinePaint(Color.BLACK);
+        plot.setDomainGridlinesVisible(true);
+        plot.setDomainGridlinePaint(Color.BLACK);
+    }
 
-                JFreeChart chart = ChartFactory.createXYLineChart("Title", "X", "Y", stockDataSet);
-                ChartPanel chartPanel = new ChartPanel(chart);
-                chartPanel.setBounds(10, 60, 530, 250);
-                chartPanel.setBorder(border);
-                popupPanel.add(chartPanel);
+    private XYLineAndShapeRenderer createRenderer() {
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
-                popup.add(popupPanel);
-                popup.validate();
-                popup.setVisible(true);
-            }
-        });
-        testButton.setBounds(10, 400, 250, 25);
-        testButton.setFont(textFont);
-        testButton.setBorder(border);
-        panel.add(testButton);
+        int numStocks = sm.getStockList().size();
+        for (int i = 0; i < numStocks; i++) {
+            renderer.setSeriesShape(i, new Rectangle2D.Float(-2,-2,4,4));
+        }
 
+        return renderer;
+    }
 
+    private void loadStockPriceTable(boolean hasInitialized) {
+        List<String> stockList = sm.getStockList();
+        String[][] stockData = new String[stockList.size()][2];
+
+        for (int i = 0; i < stockList.size(); i++) {
+            stockData[i][0] = stockList.get(i);
+            stockData[i][1] = String.format("%.2f", sm.getStockValue(stockList.get(i)));
+        }
+
+        if (hasInitialized) {
+            panel.remove(stockTable);
+            panel.repaint();
+        }
+
+        stockTable = new JTable(stockData, new String[] {"Stock Name", "Current Price"});
+        stockTable.setBounds(10, 110, 250, 250);
+        stockTable.setFont(textFont);
+        stockTable.setRowHeight(25);
+        stockTable.setRowMargin(10);
+        stockTable.getColumnModel().setColumnMargin(2);
+        stockTable.setBorder(border);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        stockTable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        stockTable.getColumnModel().getColumn(0).setMinWidth(125);
+        stockTable.getColumnModel().getColumn(1).setMinWidth(125);
+        panel.add(stockTable);
     }
 
     public void createDataSets(boolean hasInitialized) {

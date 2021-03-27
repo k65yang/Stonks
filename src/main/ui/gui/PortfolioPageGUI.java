@@ -6,15 +6,13 @@ import model.Stock;
 import model.StockMarket;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class PortfolioPageGUI extends StonksGUI {
 
-    private Portfolio portfolio;
+    private final Portfolio portfolio;
     private JTextArea portfolioInfoTextArea;
-    private JScrollPane scrollPane;
     private JTextField submitText;
     private JLabel submitLabel;
     private JLabel errorLabel;
@@ -30,49 +28,121 @@ public class PortfolioPageGUI extends StonksGUI {
 
     @Override
     public void initializePageComponents() {
-        Border border = BorderFactory.createLineBorder(Color.BLUE, 1);
-
-        JLabel homePageHeading1 = new JLabel("Options for Portfolio \"" + portfolio.getPortfolioName() + "\"!");
-        homePageHeading1.setBounds(10, 20, 530, 30);
-        homePageHeading1.setFont(headingFont);
-        homePageHeading1.setBorder(border);
-        panel.add(homePageHeading1);
-
+        loadLabels();
         loadPortfolioInfoArea(false);
+        loadButtons();
+        loadTextFields();
+    }
 
-        JButton buyStockButton = new JButton(new AbstractAction("Buy Stock") {
+    private void loadTextFields() {
+        submitText = new JTextField();
+        submitText.setBounds(10, 400, 405, 25);
+        submitText.setFont(textFont);
+        panel.add(submitText);
+    }
+
+    private void loadButtons() {
+        loadButtonBuyStock();
+        loadButtonSellStock();
+        loadButtonTransferStock();
+        loadButtonUpdateDay();
+        loadButtonInvestorPage();
+        loadButtonStockMarket();
+        loadButtonSubmit();
+    }
+
+    private void loadButtonSubmit() {
+        JButton submitButton = new JButton(new AbstractAction("Submit") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                submitLabel.setText("Enter stock name and quantity you wish to buy (STOCK/QUANTITY):");
-                currentAction = "b";
+                actionProcedures();
             }
         });
-        buyStockButton.setBounds(10, 270, 250, 25);
-        buyStockButton.setFont(textFont);
-        panel.add(buyStockButton);
+        submitButton.setBounds(415, 400, 125, 25);
+        submitButton.setFont(textFont);
+        panel.add(submitButton);
+    }
 
-        JButton sellStockButton = new JButton(new AbstractAction("Sell Stock") {
+    private void actionProcedures() {
+        String fromSubmit = submitText.getText();
+        String[] tokens = fromSubmit.split("/");
+        if (currentAction.equals("b")) { // buy stock
+            actionBuyStock(tokens);
+        } else if (currentAction.equals("s")) {
+            actionSellStock(tokens);
+        } else if (currentAction.equals("t")) {
+            actionTransferStock(tokens);
+        } else if (currentAction.equals("u")) {
+            actionUpdateDay(fromSubmit);
+        } else {
+            errorLabel.setText("Select an appropriate option!");
+        }
+        submitText.setText(null);
+    }
+
+    private void actionUpdateDay(String fromSubmit) {
+        if (isInteger(fromSubmit)) {
+            sm.updateStockPrice(Integer.parseInt(fromSubmit));
+            investor.updateAllPortfolios(sm);
+            loadPortfolioInfoArea(true);
+        } else {
+            errorLabel.setText("Invalid entry. Integer values only.");
+        }
+    }
+
+    private void actionTransferStock(String[] tokens) {
+        if (validParse(tokens, "transfer")) {
+            portfolio.transferStock(sm, investor.getPortfolioMap().get(tokens[2]),
+                    tokens[0], Integer.parseInt(tokens[1]));
+            loadPortfolioInfoArea(true);
+        } else {
+            errorLabel.setText("Entry error. Double check spelling. Entry is case-sensitive.");
+        }
+    }
+
+    private void actionSellStock(String[] tokens) {
+        if (validParse(tokens, "sell")) {
+            portfolio.sellStock(sm, tokens[0], Integer.parseInt(tokens[1]));
+            loadPortfolioInfoArea(true);
+        } else {
+            errorLabel.setText("Invalid stock or quanity. Double check spelling. Entry is case-sensitive.");
+        }
+    }
+
+    private void actionBuyStock(String[] tokens) {
+        if (validParse(tokens, "buy")) {
+            portfolio.buyStock(sm, tokens[0], Integer.parseInt(tokens[1]));
+            loadPortfolioInfoArea(true);
+        } else {
+            errorLabel.setText("Invalid stock or quanity. Double check spelling. Entry is case-sensitive.");
+        }
+    }
+
+    private void loadButtonStockMarket() {
+        JButton stockMarketButton = new JButton(new AbstractAction("Go To Stock Market") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                submitLabel.setText("Enter stock name and quantity you wish to sell (STOCK/QUANTITY):");
-                currentAction = "s";
+                stonksAppRunner.displayActivePage(3);
             }
         });
-        sellStockButton.setBounds(10, 305, 250, 25);
-        sellStockButton.setFont(textFont);
-        panel.add(sellStockButton);
+        stockMarketButton.setBounds(290, 340, 250, 25);
+        stockMarketButton.setFont(textFont);
+        panel.add(stockMarketButton);
+    }
 
-        JButton transferStockButton = new JButton(new AbstractAction("Transfer Stock From") {
+    private void loadButtonInvestorPage() {
+        JButton investorButton = new JButton(new AbstractAction("Return To Investor Menu") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                submitLabel.setText("Enter stock, quantity, and transfer portfolio (STOCK/QUAN/PORT):");
-                currentAction = "t";
+                stonksAppRunner.displayActivePage(1);
             }
         });
-        transferStockButton.setBounds(10, 340, 250, 25);
-        transferStockButton.setFont(textFont);
-        panel.add(transferStockButton);
+        investorButton.setBounds(290, 305, 250, 25);
+        investorButton.setFont(textFont);
+        panel.add(investorButton);
+    }
 
+    private void loadButtonUpdateDay() {
         JButton updateDayButton = new JButton(new AbstractAction("Update Game Day") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,79 +153,58 @@ public class PortfolioPageGUI extends StonksGUI {
         updateDayButton.setBounds(290, 270, 250, 25);
         updateDayButton.setFont(textFont);
         panel.add(updateDayButton);
+    }
 
-        JButton investorButton = new JButton(new AbstractAction("Return To Investor Menu") {
+    private void loadButtonTransferStock() {
+        JButton transferStockButton = new JButton(new AbstractAction("Transfer Stock From") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                stonksGUIRunner.displayActivePage(1);
+                submitLabel.setText("Enter stock, quantity, and transfer portfolio (STOCK/QUAN/PORT):");
+                currentAction = "t";
             }
         });
-        investorButton.setBounds(290, 305, 250, 25);
-        investorButton.setFont(textFont);
-        panel.add(investorButton);
+        transferStockButton.setBounds(10, 340, 250, 25);
+        transferStockButton.setFont(textFont);
+        panel.add(transferStockButton);
+    }
 
-        JButton stockMarketButton = new JButton(new AbstractAction("Go To Stock Market") {
+    private void loadButtonSellStock() {
+        JButton sellStockButton = new JButton(new AbstractAction("Sell Stock") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                stonksGUIRunner.displayActivePage(3);
+                submitLabel.setText("Enter stock name and quantity you wish to sell (STOCK/QUANTITY):");
+                currentAction = "s";
             }
         });
-        stockMarketButton.setBounds(290, 340, 250, 25);
-        stockMarketButton.setFont(textFont);
-        panel.add(stockMarketButton);
+        sellStockButton.setBounds(10, 305, 250, 25);
+        sellStockButton.setFont(textFont);
+        panel.add(sellStockButton);
+    }
 
-        JButton submitButton = new JButton(new AbstractAction("Submit") {
+    private void loadButtonBuyStock() {
+        JButton buyStockButton = new JButton(new AbstractAction("Buy Stock") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String fromSubmit = submitText.getText();
-                String[] tokens = fromSubmit.split("/");
-                if (currentAction == "b") { // buy stock
-                    if (validParse(tokens, "buy")) {
-                        portfolio.buyStock(sm, tokens[0], Integer.parseInt(tokens[1]));
-                        loadPortfolioInfoArea(true);
-                    } else {
-                        errorLabel.setText("Invalid stock or quanity. Double check spelling. Entry is case-sensitive.");
-                    }
-                } else if (currentAction == "s") {
-                    if (validParse(tokens, "sell")) {
-                        portfolio.sellStock(sm, tokens[0], Integer.parseInt(tokens[1]));
-                        loadPortfolioInfoArea(true);
-                    } else {
-                        errorLabel.setText("Invalid stock or quanity. Double check spelling. Entry is case-sensitive.");
-                    }
-                } else if (currentAction == "t") {
-                    if (validParse(tokens, "transfer")) {
-                        portfolio.transferStock(sm, investor.getPortfolioMap().get(tokens[2]),
-                                tokens[0], Integer.parseInt(tokens[1]));
-                        loadPortfolioInfoArea(true);
-                    } else {
-                        errorLabel.setText("Entry error. Double check spelling. Entry is case-sensitive.");
-                    }
-                } else if (currentAction == "u") {
-                    if (isInteger(fromSubmit)) {
-                        sm.updateStockPrice(Integer.parseInt(fromSubmit));
-                        investor.updateAllPortfolios(sm);
-                        loadPortfolioInfoArea(true);
-                    } else {
-                        errorLabel.setText("Invalid entry. Integer values only.");
-                    }
-                }
-                submitText.setText(null);
+                submitLabel.setText("Enter stock name and quantity you wish to buy (STOCK/QUANTITY):");
+                currentAction = "b";
             }
         });
-        submitButton.setBounds(415, 400, 125, 25);
-        submitButton.setFont(textFont);
-        panel.add(submitButton);
+        buyStockButton.setBounds(10, 270, 250, 25);
+        buyStockButton.setFont(textFont);
+        panel.add(buyStockButton);
+    }
+
+    private void loadLabels() {
+        JLabel homePageHeading1 = new JLabel("Options for Portfolio \"" + portfolio.getPortfolioName() + "\"!");
+        homePageHeading1.setBounds(10, 20, 530, 30);
+        homePageHeading1.setFont(headingFont);
+        homePageHeading1.setBorder(border);
+        panel.add(homePageHeading1);
 
         submitLabel = new JLabel("Select an option above");
         submitLabel.setBounds(10, 380, 530, 20);
         submitLabel.setFont(miniFont);
         panel.add(submitLabel);
-
-        submitText = new JTextField();
-        submitText.setBounds(10, 400, 405, 25);
-        submitText.setFont(textFont);
-        panel.add(submitText);
 
         errorLabel = new JLabel("");
         errorLabel.setBounds(10, 430, 530, 20);
@@ -174,7 +223,7 @@ public class PortfolioPageGUI extends StonksGUI {
             portfolioInfoTextArea.setFont(miniPrintoutFont);
             portfolioInfoTextArea.setEditable(false);
             printPortfolioInfo();
-            scrollPane = new JScrollPane(portfolioInfoTextArea);
+            JScrollPane scrollPane = new JScrollPane(portfolioInfoTextArea);
             scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
             scrollPane.setBounds(10, 60, 530, 200);
             panel.add(scrollPane);
@@ -202,19 +251,14 @@ public class PortfolioPageGUI extends StonksGUI {
     }
 
     private boolean validParse(String[] tokens, String action) {
-
         if (sm.containsStock(tokens[0]) && isInteger(tokens[1])) {
-            if (action == "buy" && tokens.length == 2) {
+            if (action.equals("buy") && tokens.length == 2) {
                 double totalCost = Integer.parseInt(tokens[1]) * sm.getStockValue(tokens[0]);
-                if (totalCost <= portfolio.getPortfolioFunds()) {
-                    return true;
-                }
-            } else if (action == "sell" && tokens.length == 2) {
+                return totalCost <= portfolio.getPortfolioFunds();
+            } else if (action.equals("sell") && tokens.length == 2) {
                 int quantityOfStock = portfolio.getPortfolioMap().get(tokens[0]).getQuantityOfStock();
-                if (Integer.parseInt(tokens[1]) <= quantityOfStock) {
-                    return true;
-                }
-            } else if (action == "transfer" && tokens.length == 3) {
+                return Integer.parseInt(tokens[1]) <= quantityOfStock;
+            } else if (action.equals("transfer") && tokens.length == 3) {
                 if (investor.getPortfolioMap().containsKey(tokens[2])) {
                     Portfolio otherPortfolio = investor.getPortfolioMap().get(tokens[2]);
                     if (otherPortfolio.isStockInPortfolio(tokens[0])) {
