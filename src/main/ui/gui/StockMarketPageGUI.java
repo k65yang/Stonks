@@ -36,6 +36,7 @@ public class StockMarketPageGUI extends StonksGUI {
         this.sm = stockMarket;
         this.investor = investor;
         initializePageComponents();
+        playBackgroundMusic();
     }
 
     @Override
@@ -59,6 +60,7 @@ public class StockMarketPageGUI extends StonksGUI {
         loadButtonInvestorPage();
         loadButtonSave();
         loadButtonSubmit();
+        loadButtonSound(true);
     }
 
     private void loadButtonSubmit() {
@@ -114,7 +116,6 @@ public class StockMarketPageGUI extends StonksGUI {
         });
         saveButton.setBounds(270, 215, 250, 25);
         saveButton.setFont(textFont);
-        saveButton.setBorder(border);
         panel.add(saveButton);
     }
 
@@ -122,12 +123,12 @@ public class StockMarketPageGUI extends StonksGUI {
         JButton investorButton = new JButton(new AbstractAction("Return To Investor Menu") {
             @Override
             public void actionPerformed(ActionEvent e) {
+                stopBackgroundMusic();
                 stonksAppRunner.displayActivePage(1);
             }
         });
         investorButton.setBounds(270, 180, 250, 25);
         investorButton.setFont(textFont);
-        investorButton.setBorder(border);
         panel.add(investorButton);
     }
 
@@ -141,7 +142,6 @@ public class StockMarketPageGUI extends StonksGUI {
         });
         updateDayButton.setBounds(270, 110, 250, 25);
         updateDayButton.setFont(textFont);
-        updateDayButton.setBorder(border);
         panel.add(updateDayButton);
     }
 
@@ -170,7 +170,6 @@ public class StockMarketPageGUI extends StonksGUI {
         });
         graphButton.setBounds(270, 145, 250, 25);
         graphButton.setFont(textFont);
-        graphButton.setBorder(border);
         panel.add(graphButton);
     }
 
@@ -186,7 +185,6 @@ public class StockMarketPageGUI extends StonksGUI {
         errorLabel.setBounds(10, 430, 530, 20);
         errorLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         errorLabel.setForeground(Color.RED);
-        errorLabel.setBorder(border);
         panel.add(errorLabel);
     }
 
@@ -208,7 +206,6 @@ public class StockMarketPageGUI extends StonksGUI {
         JLabel homePageHeading1 = new JLabel("Welcome to the Stock Market!");
         homePageHeading1.setBounds(10, 20, 530, 30);
         homePageHeading1.setFont(headingFont);
-        homePageHeading1.setBorder(border);
         panel.add(homePageHeading1);
 
         JLabel subHeadingLabel = new JLabel("Current Stock Tickers");

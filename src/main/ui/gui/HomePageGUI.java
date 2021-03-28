@@ -4,9 +4,13 @@ import model.Investor;
 import model.StockMarket;
 import persistence.JsonReader;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.*;
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.*;
 
 public class HomePageGUI extends StonksGUI {
     private String name;
@@ -20,6 +24,7 @@ public class HomePageGUI extends StonksGUI {
     public HomePageGUI() {
         super();
         initializePageComponents();
+        playBackgroundMusic();
     }
 
 
@@ -32,6 +37,7 @@ public class HomePageGUI extends StonksGUI {
     private void loadButtons() {
         loadButtonInvestor();
         loadButtonLoad();
+        loadButtonSound(true);
     }
 
     private void loadButtonLoad() {
@@ -67,6 +73,7 @@ public class HomePageGUI extends StonksGUI {
                 if (!isDouble(fundsAsString)) {
                     creationErrorLabel.setText("ERROR: funds is not a double.");
                 } else {
+                    stopBackgroundMusic();
                     name = userText.getText();
                     investor = new Investor(name, Double.parseDouble(fundsAsString));
                     sm = new StockMarket();

@@ -24,6 +24,7 @@ public class PortfolioPageGUI extends StonksGUI {
         this.sm = stockMarket;
         this.portfolio = this.investor.getPortfolioMap().get(portfolioName);
         initializePageComponents();
+        playBackgroundMusic();
     }
 
     @Override
@@ -49,6 +50,7 @@ public class PortfolioPageGUI extends StonksGUI {
         loadButtonInvestorPage();
         loadButtonStockMarket();
         loadButtonSubmit();
+        loadButtonSound(true);
     }
 
     private void loadButtonSubmit() {
@@ -122,6 +124,7 @@ public class PortfolioPageGUI extends StonksGUI {
         JButton stockMarketButton = new JButton(new AbstractAction("Go To Stock Market") {
             @Override
             public void actionPerformed(ActionEvent e) {
+                stopBackgroundMusic();
                 stonksAppRunner.displayActivePage(3);
             }
         });
@@ -134,6 +137,7 @@ public class PortfolioPageGUI extends StonksGUI {
         JButton investorButton = new JButton(new AbstractAction("Return To Investor Menu") {
             @Override
             public void actionPerformed(ActionEvent e) {
+                stopBackgroundMusic();
                 stonksAppRunner.displayActivePage(1);
             }
         });
@@ -198,7 +202,6 @@ public class PortfolioPageGUI extends StonksGUI {
         JLabel homePageHeading1 = new JLabel("Options for Portfolio \"" + portfolio.getPortfolioName() + "\"!");
         homePageHeading1.setBounds(10, 20, 530, 30);
         homePageHeading1.setFont(headingFont);
-        homePageHeading1.setBorder(border);
         panel.add(homePageHeading1);
 
         submitLabel = new JLabel("Select an option above");
@@ -210,7 +213,6 @@ public class PortfolioPageGUI extends StonksGUI {
         errorLabel.setBounds(10, 430, 530, 20);
         errorLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         errorLabel.setForeground(Color.RED);
-        errorLabel.setBorder(border);
         panel.add(errorLabel);
     }
 

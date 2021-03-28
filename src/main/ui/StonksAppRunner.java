@@ -26,22 +26,22 @@ public class StonksAppRunner {
     public void displayActivePage(int activePage) {
         if (activePage == 0) {
             activePageGUI = new HomePageGUI();
-            activePageGUI.setStonksGUIRunner(this);
+            activePageGUI.setStonksAppRunner(this);
             refreshScreen();
         } else if (activePage == 1) {
             updateFields();
             activePageGUI = new InvestorPageGUI(investor, sm);
-            activePageGUI.setStonksGUIRunner(this);
+            activePageGUI.setStonksAppRunner(this);
             refreshScreen();
         } else if (activePage == 2) {
             String portfolioName = updateFields();
             activePageGUI = new PortfolioPageGUI(investor, portfolioName, sm);
-            activePageGUI.setStonksGUIRunner(this);
+            activePageGUI.setStonksAppRunner(this);
             refreshScreen();
         } else if (activePage == 3) {
             updateFields();
             activePageGUI = new StockMarketPageGUI(investor, sm);
-            activePageGUI.setStonksGUIRunner(this);
+            activePageGUI.setStonksAppRunner(this);
             refreshScreen();
         }
     }
