@@ -6,6 +6,7 @@ import ui.gui.*;
 
 import javax.swing.*;
 
+// Class responsible for running Stonks on a GUI
 public class StonksAppRunner {
     private StonksGUI activePageGUI;
     private JFrame frame;
@@ -13,6 +14,8 @@ public class StonksAppRunner {
     private Investor investor;
     private StockMarket sm;
 
+    // MODIFIES: this
+    // EFFECTS: launches Stonks on a GUI
     public StonksAppRunner() {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,6 +26,8 @@ public class StonksAppRunner {
         displayActivePage(0);
     }
 
+    // MODIFIES: this
+    // EFFECTS: displays the active page (home page, investor page, portfolio page, or stock market page)
     public void displayActivePage(int activePage) {
         if (activePage == 0) {
             activePageGUI = new HomePageGUI();
@@ -46,12 +51,16 @@ public class StonksAppRunner {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates the investor and stock market fields whenever the page is changed
     private String updateFields() {
         investor = activePageGUI.getInvestor();
         sm = activePageGUI.getStockMarket();
         return activePageGUI.getOutput();
     }
 
+    // MODIFIES: this
+    // EFFECTS: refereshes the screen whenever the page is changed
     private void refreshScreen() {
         panel = activePageGUI.getPanel();
         frame.getContentPane().removeAll();

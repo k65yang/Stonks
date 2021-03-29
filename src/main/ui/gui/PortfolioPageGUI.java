@@ -9,8 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+// A class representing the GUI investor page of the Stonks application, subtype of the StonksGUI class
 public class PortfolioPageGUI extends StonksGUI {
-
     private final Portfolio portfolio;
     private JTextArea portfolioInfoTextArea;
     private JTextField submitText;
@@ -18,6 +18,8 @@ public class PortfolioPageGUI extends StonksGUI {
     private JLabel errorLabel;
     private String currentAction;
 
+    // MODIFIES: this
+    // EFFECTS: constructs an portfolio menu page for the specified portfolio, portfolioName
     public PortfolioPageGUI(Investor investor, String portfolioName, StockMarket stockMarket) {
         super();
         this.investor = investor;
@@ -28,6 +30,8 @@ public class PortfolioPageGUI extends StonksGUI {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECTS: adds labels, text fields, buttons to the panels to initialize the portfolio page
     public void initializePageComponents() {
         loadLabels();
         loadPortfolioInfoArea(false);
@@ -35,6 +39,8 @@ public class PortfolioPageGUI extends StonksGUI {
         loadTextFields();
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the text fields to the portfolio page
     private void loadTextFields() {
         submitText = new JTextField();
         submitText.setBounds(10, 400, 405, 25);
@@ -42,6 +48,8 @@ public class PortfolioPageGUI extends StonksGUI {
         panel.add(submitText);
     }
 
+    // MODIFIES: thie
+    // EFFECTS: adds the buttons to the portfolio page
     private void loadButtons() {
         loadButtonBuyStock();
         loadButtonSellStock();
@@ -53,6 +61,8 @@ public class PortfolioPageGUI extends StonksGUI {
         loadButtonSound(true);
     }
 
+    // MODIFIES: this, submitButton
+    // EFFECTS: adds the submit button with an action listener to process the current action
     private void loadButtonSubmit() {
         JButton submitButton = new JButton(new AbstractAction("Submit") {
             @Override
@@ -65,6 +75,10 @@ public class PortfolioPageGUI extends StonksGUI {
         panel.add(submitButton);
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes the current action when the submit button is pressed
+    //          tells the user if the current action is not valid
+    //          finally, deletes text in the submitText field
     private void actionProcedures() {
         String fromSubmit = submitText.getText();
         String[] tokens = fromSubmit.split("/");
@@ -82,6 +96,9 @@ public class PortfolioPageGUI extends StonksGUI {
         submitText.setText(null);
     }
 
+    // MODIFIES: this
+    // EFFECTS: if input is an integer, will update the game day be the specified amount
+    //          else, will notify the user of error through the errorLabel
     private void actionUpdateDay(String fromSubmit) {
         if (isInteger(fromSubmit)) {
             sm.updateStockPrice(Integer.parseInt(fromSubmit));
@@ -92,6 +109,10 @@ public class PortfolioPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: if input is valid, will transfer the specified quantity of stock from the
+    //          other specified portfolio to this portfolio
+    //          else, will notify the uwer of error through the errorLabel
     private void actionTransferStock(String[] tokens) {
         if (validParse(tokens, "transfer")) {
             portfolio.transferStock(sm, investor.getPortfolioMap().get(tokens[2]),
@@ -102,6 +123,9 @@ public class PortfolioPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: is input is valid, will sell the specified quantity of stock
+    //          else, will notify the uwer of error through the errorLabel
     private void actionSellStock(String[] tokens) {
         if (validParse(tokens, "sell")) {
             portfolio.sellStock(sm, tokens[0], Integer.parseInt(tokens[1]));
@@ -111,6 +135,9 @@ public class PortfolioPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: if input is valid, will buy the specified quantity of stock
+    //          else, will notify the uwer of error through the errorLabel
     private void actionBuyStock(String[] tokens) {
         if (validParse(tokens, "buy")) {
             portfolio.buyStock(sm, tokens[0], Integer.parseInt(tokens[1]));
@@ -120,6 +147,8 @@ public class PortfolioPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this, stockMarketButton
+    // EFFECTS: will bring the user to the stock market page
     private void loadButtonStockMarket() {
         JButton stockMarketButton = new JButton(new AbstractAction("Go To Stock Market") {
             @Override
@@ -133,6 +162,8 @@ public class PortfolioPageGUI extends StonksGUI {
         panel.add(stockMarketButton);
     }
 
+    // MODIFIES: this, investorButton
+    // EFFECTS: will bring the user to the investor page
     private void loadButtonInvestorPage() {
         JButton investorButton = new JButton(new AbstractAction("Return To Investor Menu") {
             @Override
@@ -146,6 +177,9 @@ public class PortfolioPageGUI extends StonksGUI {
         panel.add(investorButton);
     }
 
+    // MODIFIES: this, updateDayButton
+    // EFFECTS: adds a update day button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonUpdateDay() {
         JButton updateDayButton = new JButton(new AbstractAction("Update Game Day") {
             @Override
@@ -159,6 +193,9 @@ public class PortfolioPageGUI extends StonksGUI {
         panel.add(updateDayButton);
     }
 
+    // MODIFIES: this, transferStockButton
+    // EFFECTS: adds a transfer stock button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonTransferStock() {
         JButton transferStockButton = new JButton(new AbstractAction("Transfer Stock From") {
             @Override
@@ -172,6 +209,9 @@ public class PortfolioPageGUI extends StonksGUI {
         panel.add(transferStockButton);
     }
 
+    // MODIFIES: this, sellStockButton
+    // EFFECTS: adds a sell stock button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonSellStock() {
         JButton sellStockButton = new JButton(new AbstractAction("Sell Stock") {
             @Override
@@ -185,6 +225,9 @@ public class PortfolioPageGUI extends StonksGUI {
         panel.add(sellStockButton);
     }
 
+    // MODIFIES: this, buyStockButton
+    // EFFECTS: adds a buy stock day button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonBuyStock() {
         JButton buyStockButton = new JButton(new AbstractAction("Buy Stock") {
             @Override
@@ -198,6 +241,8 @@ public class PortfolioPageGUI extends StonksGUI {
         panel.add(buyStockButton);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the labels onto the panel
     private void loadLabels() {
         JLabel homePageHeading1 = new JLabel("Options for Portfolio \"" + portfolio.getPortfolioName() + "\"!");
         homePageHeading1.setBounds(10, 20, 530, 30);
@@ -216,6 +261,9 @@ public class PortfolioPageGUI extends StonksGUI {
         panel.add(errorLabel);
     }
 
+    // MODIFIES: this
+    // EFFECTS: if portfolioInfoTextArea has not been initialized, it will be initialized
+    //          then adds portfolio information onto the portfolioInfoTextArea
     public void loadPortfolioInfoArea(boolean hasInitialized) {
         if (hasInitialized) {
             portfolioInfoTextArea.setText(null);
@@ -232,6 +280,8 @@ public class PortfolioPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds portfolio information onto the portfolioInfoTextArea
     private void printPortfolioInfo() {
         portfolioInfoTextArea.append("---------------------- Portfolio Overview ----------------------\n");
         portfolioInfoTextArea.append("Name: " + portfolio.getPortfolioName() + "\n");
@@ -252,15 +302,17 @@ public class PortfolioPageGUI extends StonksGUI {
         }
     }
 
+    // EFFECTS: determines if the given tokens is valid with respect to the specified action
     private boolean validParse(String[] tokens, String action) {
         if (sm.containsStock(tokens[0]) && isInteger(tokens[1])) {
+            // determines if input is valid for a buy action
             if (action.equals("buy") && tokens.length == 2) {
                 double totalCost = Integer.parseInt(tokens[1]) * sm.getStockValue(tokens[0]);
                 return totalCost <= portfolio.getPortfolioFunds();
-            } else if (action.equals("sell") && tokens.length == 2) {
+            } else if (action.equals("sell") && tokens.length == 2) { // determines if input is valid for a sell action
                 int quantityOfStock = portfolio.getPortfolioMap().get(tokens[0]).getQuantityOfStock();
                 return Integer.parseInt(tokens[1]) <= quantityOfStock;
-            } else if (action.equals("transfer") && tokens.length == 3) {
+            } else if (action.equals("transfer") && tokens.length == 3) { // determines if input is valid for a transfer
                 if (investor.getPortfolioMap().containsKey(tokens[2])) {
                     Portfolio otherPortfolio = investor.getPortfolioMap().get(tokens[2]);
                     if (otherPortfolio.isStockInPortfolio(tokens[0])) {

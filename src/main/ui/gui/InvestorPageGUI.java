@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 
+// A class representing the GUI investor page of the Stonks application, subtype of the StonksGUI class
 public class InvestorPageGUI extends StonksGUI {
     private JTextArea investorInfoTextArea;
     private JTextField submitText;
@@ -16,6 +17,8 @@ public class InvestorPageGUI extends StonksGUI {
     private JLabel errorLabel;
     private String currentAction;
 
+    // MODIFIES: this
+    // EFFECTS: constructs an investor menu page
     public InvestorPageGUI(Investor investor, StockMarket sm) {
         super();
         this.investor = investor;
@@ -26,6 +29,8 @@ public class InvestorPageGUI extends StonksGUI {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECTS: adds labels, text fields, buttons to the panels to initialize the investor page
     public void initializePageComponents() {
         loadLabels();
         loadInvestorInfoArea(false);
@@ -33,6 +38,8 @@ public class InvestorPageGUI extends StonksGUI {
         loadTextFields();
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the text fields to the investor page
     private void loadTextFields() {
         submitText = new JTextField();
         submitText.setBounds(10, 400, 405, 25);
@@ -40,6 +47,8 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(submitText);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the buttons to the investor page
     private void loadButtons() {
         loadButtonAddPortfolio();
         loadButtonAddFundsToPortfolio();
@@ -53,6 +62,8 @@ public class InvestorPageGUI extends StonksGUI {
         loadButtonSound(true);
     }
 
+    // MODIFIES: this, submitButton
+    // EFFECTS: adds the submit button with an action listener to process the current action
     private void loadButtonSubmit() {
         JButton submitButton = new JButton(new AbstractAction("Submit") {
             @Override
@@ -65,6 +76,10 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(submitButton);
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes the current action when the submit button is pressed
+    //          tells the user if the current action is not valid
+    //          finally, deletes text in the submitText field
     private void actionProcedures() {
         String fromSubmit = submitText.getText();
         if (currentAction.equals("a")) { // add portfolio
@@ -87,6 +102,9 @@ public class InvestorPageGUI extends StonksGUI {
         submitText.setText(null);
     }
 
+    // MODIFIES: this
+    // EFFECTS: attempts to save the current state of the game, if exception is thrown,
+    //          the game will notify the user through the errorLabel
     private void actionSaveToFile(String fromSubmit) {
         try {
             saveFile(fromSubmit);
@@ -95,6 +113,9 @@ public class InvestorPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: if input is an integer, will update the game day be the specified amount
+    //          else, will notify the user of error through the errorLabel
     private void actionUpdateDay(String fromSubmit) {
         if (isInteger(fromSubmit)) {
             sm.updateStockPrice(Integer.parseInt(fromSubmit));
@@ -105,6 +126,10 @@ public class InvestorPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: if input is a valid portfolio name, will merge all other portfolios into
+    //          the specified portfolio, else will notify user of an error through the
+    //          errorLabel
     private void actionMergePortfolios(String fromSubmit) {
         if (investor.getPortfolioMap().containsKey(fromSubmit)) {
             investor.mergeIntoOnePortfolio(fromSubmit, sm);
@@ -112,6 +137,9 @@ public class InvestorPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: if input is a valid portfolio name, will go to the specified portfolio page
+    //          else, will notify user of an error through the errorLabel
     private void actionPortfolioMenu(String fromSubmit) {
         if (investor.getPortfolioMap().containsKey(fromSubmit)) {
             stopBackgroundMusic();
@@ -122,6 +150,9 @@ public class InvestorPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: if input is a valid portfolio name, will remove the specified portfolio
+    //          else, will notify user of an error through the errorLabel
     private void actionRemovePortfolio(String fromSubmit) {
         if (investor.getPortfolioMap().containsKey(fromSubmit)) {
             investor.removePortfolio(fromSubmit);
@@ -131,6 +162,10 @@ public class InvestorPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: if input is in valid format, and there is enough funds and the specified
+    //          portfolio exists, then the specified funds will be added to the specified
+    //          portfolio, else, the user will be notified of error through the errorLabel
     private void actionAddFundsToPortfolio(String fromSubmit) {
         String[] tokens = fromSubmit.split("/");
         if (tokens.length == 2 && isDouble(tokens[1])
@@ -143,6 +178,10 @@ public class InvestorPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: if the input is in valid format, and there is enough funds and the portfolio
+    //          name is available, the specified portfolio will be created, else the user
+    //          will be notified of error through the errorLabel
     private void actionAddPortfolio(String fromSubmit) {
         String[] tokens = fromSubmit.split("/");
         if (tokens.length == 2 && isDouble(tokens[1])
@@ -155,6 +194,9 @@ public class InvestorPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this, saveButton
+    // EFFECTS: adds a load button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonSave() {
         JButton saveButton = new JButton(new AbstractAction("Save Game") {
             @Override
@@ -168,6 +210,9 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(saveButton);
     }
 
+    // MODIFIES: this, updateDayButton
+    // EFFECTS: adds a update day button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonUpdateDay() {
         JButton updateDayButton = new JButton(new AbstractAction("Update Game Day") {
             @Override
@@ -181,6 +226,9 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(updateDayButton);
     }
 
+    // MODIFIES: this, stockmarketButton
+    // EFFECTS: adds a stock market button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonStockMarket() {
         JButton stockmarketButton = new JButton(new AbstractAction("Go To StockMarket") {
             @Override
@@ -194,6 +242,9 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(stockmarketButton);
     }
 
+    // MODIFIES: this, mergePortfolioButton
+    // EFFECTS: adds a merge button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonMergePortfolio() {
         JButton mergePortfolioButton = new JButton(new AbstractAction("Merge All Portfolios") {
             @Override
@@ -207,6 +258,9 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(mergePortfolioButton);
     }
 
+    // MODIFIES: this, viewPortfolioButton
+    // EFFECTS: adds a view portfolio button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonViewPortfolio() {
         JButton viewPortfolioButton = new JButton(new AbstractAction("View Existing Portfolio") {
             @Override
@@ -220,6 +274,9 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(viewPortfolioButton);
     }
 
+    // MODIFIES: this, removePortfolioButton
+    // EFFECTS: adds a remove portfolio button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonRemovePortfolio() {
         JButton removePortfolioButton = new JButton(new AbstractAction("Remove Portfolio") {
             @Override
@@ -233,6 +290,9 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(removePortfolioButton);
     }
 
+    // MODIFIES: this, addFundsToPorfolioButton
+    // EFFECTS: adds a add funds to portfolio button to the panel with an action listener
+    //          to set the submitLabel text and current action when pressed
     private void loadButtonAddFundsToPortfolio() {
         JButton addFundsToPorfolioButton = new JButton(new AbstractAction("Add Funds To Portfolio") {
             @Override
@@ -246,6 +306,9 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(addFundsToPorfolioButton);
     }
 
+    // MODIFIES: this, addPortfolioButton
+    // EFFECTS: adds a add portfolio button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonAddPortfolio() {
         JButton addPortfolioButton = new JButton(new AbstractAction("Add New Portfolio") {
             @Override
@@ -259,6 +322,8 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(addPortfolioButton);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the labels onto the panel
     private void loadLabels() {
         JLabel homePageHeading1 = new JLabel("Welcome to to the investor homepage " + investor.getInvestorName() + "!");
         homePageHeading1.setBounds(10, 20, 530, 30);
@@ -277,6 +342,9 @@ public class InvestorPageGUI extends StonksGUI {
         panel.add(errorLabel);
     }
 
+    // MODIFIES: this
+    // EFFECTS: if investorInfoTextArea has not been initialized, it will be initialized
+    //          then adds investor information onto the investorInfoTextArea
     private void loadInvestorInfoArea(boolean hasInitialized) {
         if (hasInitialized) {
             investorInfoTextArea.setText(null);
@@ -294,6 +362,8 @@ public class InvestorPageGUI extends StonksGUI {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds investor information onto the investorInfoTextArea
     private void printInvestorInfo() {
         investorInfoTextArea.append("--------------------- Investor Overview ----------------------\n");
         investorInfoTextArea.append("Name: " + investor.getInvestorName() + "\n");

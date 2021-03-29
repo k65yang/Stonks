@@ -4,42 +4,48 @@ import model.Investor;
 import model.StockMarket;
 import persistence.JsonReader;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.*;
-import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.*;
 
+// A class representing the GUI home page of the Stonks application, subtype of the StonksGUI class
 public class HomePageGUI extends StonksGUI {
     private String name;
-
     private JTextField userText;
     private JTextField fundsText;
     private JTextField loadText;
     private JLabel creationErrorLabel;
     private JLabel loadErrorLabel;
 
+    // MODIFIES: this
+    // EFFECTS: constructs a home page
     public HomePageGUI() {
         super();
         initializePageComponents();
         playBackgroundMusic();
     }
 
-
+    @Override
+    // MODIFIES: this
+    // EFFECTS: adds labels, textfields, and buttons onto the panel to initialize the home page
     public void initializePageComponents() {
         loadLabels();
         loadTextFields();
         loadButtons();
     }
 
+    // MODIFIES this
+    // EFFECTS: adds all the buttons to the home page
     private void loadButtons() {
         loadButtonInvestor();
         loadButtonLoad();
         loadButtonSound(true);
     }
 
+    // MODIFIES: this, loadButton
+    // EFFECTS: adds the load profile button to the home page which has an action listener, when
+    //          clicked will create an investor if the inputs are valid, else will notify the user
+    //          of a possible error
     private void loadButtonLoad() {
         JButton loadButton = new JButton(new AbstractAction("Load Profile!") {
             @Override
@@ -65,6 +71,10 @@ public class HomePageGUI extends StonksGUI {
         panel.add(loadButton);
     }
 
+    // MODIFIES: this, createInvestorButton
+    // EFFECTS: adds an load investor button on the home page with an action listener, when
+    //          clicked will load the specified file, if possible, else will notify the user of
+    //          a possible error
     private void loadButtonInvestor() {
         JButton createInvestorButton = new JButton(new AbstractAction("Create Investor!") {
             @Override
@@ -86,12 +96,16 @@ public class HomePageGUI extends StonksGUI {
         panel.add(createInvestorButton);
     }
 
+    // MODIFIES: thie
+    // EFFECTS: adds the JLabels onto the home page
     private void loadLabels() {
         loadLabelsHeadings();
         loadLabelsDescriptors();
         loadLabelsErrorLabels();
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the error lables onto the home page
     private void loadLabelsErrorLabels() {
         creationErrorLabel = new JLabel("");
         creationErrorLabel.setBounds(10, 210, 300, 20);
@@ -106,6 +120,8 @@ public class HomePageGUI extends StonksGUI {
         panel.add(loadErrorLabel);
     }
 
+    // MODIFIES: thie
+    // EFFECTS: adds the description labels onto the home page
     private void loadLabelsDescriptors() {
         JLabel userLabel = new JLabel("Enter investor name:");
         userLabel.setBounds(10, 110, 190, 25);
@@ -123,6 +139,8 @@ public class HomePageGUI extends StonksGUI {
         panel.add(loadLabel);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the heading labels onto the home page
     private void loadLabelsHeadings() {
         JLabel title = new JLabel("STONKS!", SwingConstants.CENTER);
         title.setBounds(10, 20, 530, 40);
@@ -140,6 +158,8 @@ public class HomePageGUI extends StonksGUI {
         panel.add(homePageHeading2);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the text fields onto the home page
     private void loadTextFields() {
         userText = new JTextField();
         userText.setBounds(210, 110, 165, 25);

@@ -10,7 +10,6 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 

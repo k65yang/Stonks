@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+// Abstract superclass for all the pages (different layouts) used by the Stonks GUI
 public abstract class StonksGUI {
     protected String output;
     protected JPanel panel;
@@ -31,6 +32,8 @@ public abstract class StonksGUI {
     protected final Font miniPrintoutFont = new Font("DialogInput", Font.BOLD, 14);
     protected final Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 
+    // MODIFIES: this
+    // EFFECTS: Creates a StonksGUI object
     public StonksGUI() {
         panel = new JPanel();
         panel.setLayout(null);
@@ -39,30 +42,41 @@ public abstract class StonksGUI {
         panel.add(soundButton);
     }
 
+    // EFFECTS: returns the output field as a string
     public String getOutput() {
         return output;
     }
 
+    // EFFECTS: returns the JPanel object, panel
     public JPanel getPanel() {
         return panel;
     }
 
+    // EFFECTS: returns the stored investor object
     public Investor getInvestor() {
         return investor;
     }
 
+    // EFFECTS: returns the stored stock market object
     public StockMarket getStockMarket() {
         return sm;
     }
 
+    // REQUIRES: toSet cannot be null
+    // MODIFIES: this
+    // EFFECTS: sets the StonksAppRunner field to the given StonksAppRunner toSet
     public void setStonksAppRunner(StonksAppRunner toSet) {
         this.stonksAppRunner = toSet;
     }
 
+    // REQUIRES: investor cannot be null
+    // MODIFIES: this
+    // EFFECTS: sets the investor field to the given investor
     public void setInvestor(Investor investor) {
         this.investor = investor;
     }
 
+    // EFFECTS: starts playing background music on a loop
     protected void playBackgroundMusic() {
         // Music from https://www.storyblocks.com/audio/stock/vintage-background-jazz-atmosphere-sb3gvmdkvkchko6xk.html
         // Code from https://stackoverflow.com/tags/javasound/info
@@ -79,13 +93,18 @@ public abstract class StonksGUI {
 
     }
 
+    // EFFECTS: stops playing background music
     protected void stopBackgroundMusic() {
         clip.stop();
     }
 
-    // code from https://stackoverflow.com/questions/4801386/how-do-i-add-an-image-to-a-jbutton
+    // MODIFIES: this
+    // EFFECTS: adds a sound button on the lower right corner of the screen
+    //          if background music is playing, the image will be a mute icon and upon click
+    //          will stop the background music from playing, then change the icon to a volume icon
+    //          if background music is not playing, the image will be a volume button and upon click
+    //          will start playing the background music, then change the icon to a mute icon
     protected void loadButtonSound(boolean showMute) {
-
         for (ActionListener al : soundButton.getActionListeners()) {
             soundButton.removeActionListener(al);
         }
@@ -112,6 +131,7 @@ public abstract class StonksGUI {
 
     }
 
+    // EFFECTS: returns a boolean indicating if toCheck can be represented as a double
     protected boolean isDouble(String toCheck) {
         try {
             Double.parseDouble(toCheck);
@@ -121,6 +141,7 @@ public abstract class StonksGUI {
         }
     }
 
+    // EFFECTS: returns a boolean indicated in toCheck can be represented as an integer
     protected boolean isInteger(String toCheck) {
         try {
             Integer.parseInt(toCheck);
@@ -130,6 +151,7 @@ public abstract class StonksGUI {
         }
     }
 
+    // EFFECTS: saves the current state of investor and stock market to individual json files
     protected void saveFile(String saveName) throws FileNotFoundException {
         String saveInvestorName = "Investor-" + saveName;
         String saveStockMarketName = "StockMarket-" + saveName;
@@ -149,6 +171,8 @@ public abstract class StonksGUI {
         writerStockMarket.close();
     }
 
+    // MODIFIES: this
+    // EFFECTS: loads the page components onto the JPanel
     public abstract void initializePageComponents();
 
 }

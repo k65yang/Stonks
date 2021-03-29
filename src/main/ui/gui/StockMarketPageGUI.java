@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
 
+// A class representing the GUI Stock Market page of the Stonks application, subtype of the StonksGUI class
 public class StockMarketPageGUI extends StonksGUI {
     private JTable stockTable;
     private JFreeChart chart;
@@ -31,6 +32,8 @@ public class StockMarketPageGUI extends StonksGUI {
     private JLabel dayLabel;
     private String currentAction;
 
+    // MODIFIES: this
+    // EFFECTS constructs a stock market menu page
     public StockMarketPageGUI(Investor investor, StockMarket stockMarket) {
         super();
         this.sm = stockMarket;
@@ -40,6 +43,8 @@ public class StockMarketPageGUI extends StonksGUI {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECTS: adds labels, text fields, buttons to the panels to initialize the investor page
     public void initializePageComponents() {
         loadLabels();
         loadStockPriceTable(false);
@@ -47,6 +52,8 @@ public class StockMarketPageGUI extends StonksGUI {
         loadTextFields();
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the text fields to the investor page
     private void loadTextFields() {
         submitText = new JTextField();
         submitText.setBounds(10, 400, 405, 25);
@@ -54,6 +61,8 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(submitText);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the buttons to the investor page
     private void loadButtons() {
         loadButtonStockPlot();
         loadButtonUpdateDay();
@@ -63,6 +72,8 @@ public class StockMarketPageGUI extends StonksGUI {
         loadButtonSound(true);
     }
 
+    // MODIFIES: this, submitButton
+    // EFFECTS: adds the submit button with an action listener to process the current action
     private void loadButtonSubmit() {
         JButton submitButton = new JButton(new AbstractAction("Submit") {
             @Override
@@ -75,6 +86,10 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(submitButton);
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes the current action when the submit button is pressed
+    //          tells the user if the current action is not valid
+    //          finally, deletes text in the submitText field
     private void actionProcedures() {
         String fromSubmit = submitText.getText();
         if (currentAction.equals("u")) {
@@ -87,6 +102,9 @@ public class StockMarketPageGUI extends StonksGUI {
         submitText.setText(null);
     }
 
+    // MODIFIES: this
+    // EFFECTS: attempts to save the current state of the game, if exception is thrown,
+    //          the game will notify the user through the errorLabel
     private void actionSave(String fromSubmit) {
         try {
             saveFile(fromSubmit);
@@ -95,6 +113,9 @@ public class StockMarketPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: if input is an integer, will update the game day be the specified amount
+    //          else, will notify the user of error through the errorLabel
     private void actionUpdateDay(String fromSubmit) {
         if (isInteger(fromSubmit)) {
             sm.updateStockPrice(Integer.parseInt(fromSubmit));
@@ -106,6 +127,9 @@ public class StockMarketPageGUI extends StonksGUI {
         }
     }
 
+    // MODIFIES: this, saveButton
+    // EFFECTS: adds a load button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonSave() {
         JButton saveButton = new JButton(new AbstractAction("Save Game") {
             @Override
@@ -119,6 +143,9 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(saveButton);
     }
 
+    // MODIFIES: this, investorButton
+    // EFFECTS: adds a investor button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonInvestorPage() {
         JButton investorButton = new JButton(new AbstractAction("Return To Investor Menu") {
             @Override
@@ -132,6 +159,9 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(investorButton);
     }
 
+    // MODIFIES: this, updateDayButton
+    // EFFECTS: adds a update day button to the panel with an action listener to set the submitLabel
+    //          text and current action when pressed
     private void loadButtonUpdateDay() {
         JButton updateDayButton = new JButton(new AbstractAction("Update Game Day") {
             @Override
@@ -145,11 +175,14 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(updateDayButton);
     }
 
+    // MODIFIES: this, graphButton
+    // EFFECTS: adds a graph button to the panel with an action listener to create a plot of the
+    //          stock history of all stocks on a new popup window
     private void loadButtonStockPlot() {
         JButton graphButton = new JButton(new AbstractAction("See Plot of Stocks") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createDataSets(false);
+                createDataSets();
 
                 JFrame popup = new JFrame();
                 popup.setSize(910,610);
@@ -173,6 +206,8 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(graphButton);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds labels onto the panel
     private void loadLabels() {
         loadLabelsHeadings();
         loadLabelDayCounter();
@@ -180,6 +215,8 @@ public class StockMarketPageGUI extends StonksGUI {
         loadLabelError();
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the error label to the panel
     private void loadLabelError() {
         errorLabel = new JLabel("");
         errorLabel.setBounds(10, 430, 530, 20);
@@ -188,6 +225,8 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(errorLabel);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the submit label to the panel
     private void loadLabelSubmit() {
         submitLabel = new JLabel("Select an option above");
         submitLabel.setBounds(10, 380, 530, 20);
@@ -195,6 +234,8 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(submitLabel);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the day label to the panel
     private void loadLabelDayCounter() {
         dayLabel = new JLabel("Current Day: " + sm.getDay());
         dayLabel.setBounds(270, 70, 250, 28);
@@ -202,6 +243,8 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(dayLabel);
     }
 
+    // MODIFIES: this
+    // EFFECTS; adds the heading labels to the panel
     private void loadLabelsHeadings() {
         JLabel homePageHeading1 = new JLabel("Welcome to the Stock Market!");
         homePageHeading1.setBounds(10, 20, 530, 30);
@@ -216,6 +259,8 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(subHeadingLabel);
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates and customizes the chart component
     private void customizeChart() {
         chartPanel = new ChartPanel(chart);
         chartPanel.setBounds(10, 10, 880, 560);
@@ -230,6 +275,7 @@ public class StockMarketPageGUI extends StonksGUI {
         plot.setDomainGridlinePaint(Color.BLACK);
     }
 
+    // EFFECTS: returns a renderer specifying the symbology on the chart plot
     private XYLineAndShapeRenderer createRenderer() {
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
@@ -241,6 +287,8 @@ public class StockMarketPageGUI extends StonksGUI {
         return renderer;
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a chart to show the current price of the all stocks
     private void loadStockPriceTable(boolean hasInitialized) {
         List<String> stockList = sm.getStockList();
         String[][] stockData = new String[stockList.size()][2];
@@ -272,17 +320,17 @@ public class StockMarketPageGUI extends StonksGUI {
         panel.add(stockTable);
     }
 
-    public void createDataSets(boolean hasInitialized) {
-        if (hasInitialized) {
-            System.out.println("wrong");
-        } else {
-            stockDataSet = new XYSeriesCollection();
-            createXYSeries();
-            addStockHistoryToDataSet();
-        }
+    // MOFIDIES: this
+    // EFFECTS: generates the stock market dataset to plot
+    public void createDataSets() {
+        stockDataSet = new XYSeriesCollection();
+        createXYSeries();
+        addStockHistoryToDataSet();
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates individual series to store each of the stocks data points
     private void createXYSeries() {
         stockDataSet.addSeries(new XYSeries("MMM"));
         stockDataSet.addSeries(new XYSeries("AMC"));
@@ -296,6 +344,8 @@ public class StockMarketPageGUI extends StonksGUI {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds the values related to the stock price for each stock in the stock market
     private void addStockHistoryToDataSet() {
         List<Double> mmmHistory = sm.getAllStockHistory("MMM");
         List<Double> amcHistory = sm.getAllStockHistory("AMC");
