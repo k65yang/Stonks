@@ -25,6 +25,7 @@ public class PortfolioPageGUI extends StonksGUI {
         this.investor = investor;
         this.sm = stockMarket;
         this.portfolio = this.investor.getPortfolioMap().get(portfolioName);
+        currentAction = "x";
         initializePageComponents();
         playBackgroundMusic();
     }
@@ -286,7 +287,7 @@ public class PortfolioPageGUI extends StonksGUI {
         portfolioInfoTextArea.append("---------------------- Portfolio Overview ----------------------\n");
         portfolioInfoTextArea.append("Name: " + portfolio.getPortfolioName() + "\n");
         String formatted = String.format("%.2f", portfolio.getPortfolioFunds());
-        portfolioInfoTextArea.append("Available Funds: " + formatted + "\n");
+        portfolioInfoTextArea.append("Available Funds: $" + formatted + "\n");
         formatted = String.format("%.2f", portfolio.getPortfolioNetWorth());
         portfolioInfoTextArea.append("Net Worth of Stocks: $" + formatted + "\n\n");
         portfolioInfoTextArea.append("------------------- Stocks In This Portfolio -------------------\n");
@@ -294,11 +295,9 @@ public class PortfolioPageGUI extends StonksGUI {
             portfolioInfoTextArea.append("Stock Name: " + s.getStockName() + "\n");
             portfolioInfoTextArea.append("Quantity Owned: " + s.getQuantityOfStock() + "\n");
             formatted = String.format("%.2f", s.getTotalValue());
-            portfolioInfoTextArea.append("Total Worth of Stock: " + formatted + "\n");
-            formatted = String.format("%.2f", sm.getAllStockHistory(s.getStockName()).get(0));
-            portfolioInfoTextArea.append("Buy Price (Single): " + formatted + "\n");
+            portfolioInfoTextArea.append("Total Worth of Stock: $" + formatted + "\n");
             formatted = String.format("%.2f", sm.getAllStockHistory(s.getStockName()).get(sm.getDay()));
-            portfolioInfoTextArea.append("Current Price (Single): " + formatted + "\n\n");
+            portfolioInfoTextArea.append("Current Price (Single): $" + formatted + "\n\n");
         }
     }
 

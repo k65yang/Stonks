@@ -23,7 +23,7 @@ public class InvestorPageGUI extends StonksGUI {
         super();
         this.investor = investor;
         this.sm = sm;
-        currentAction = null;
+        currentAction = "x";
         initializePageComponents();
         playBackgroundMusic();
     }
@@ -368,7 +368,7 @@ public class InvestorPageGUI extends StonksGUI {
         investorInfoTextArea.append("--------------------- Investor Overview ----------------------\n");
         investorInfoTextArea.append("Name: " + investor.getInvestorName() + "\n");
         String formatted = String.format("%.2f", investor.getInvestorFunds());
-        investorInfoTextArea.append("Available Funds: " + formatted + "\n\n");
+        investorInfoTextArea.append("Available Funds: $" + formatted + "\n\n");
         investorInfoTextArea.append("--------------------- Portfolio Overview ---------------------\n");
         for (Portfolio p : investor.getPortfolioMap().values()) {
             investorInfoTextArea.append("Portfolio: " + p.getPortfolioName() + "\n");

@@ -60,6 +60,7 @@ public class HomePageGUI extends StonksGUI {
 
                     investor = (Investor) readerInvestor.read();
                     sm = (StockMarket) readerStockMarket.read();
+                    stopBackgroundMusic();
                     stonksAppRunner.displayActivePage(1);
                 } catch (Exception exception) {
                     loadErrorLabel.setText("An error has occurred. Please retry.");

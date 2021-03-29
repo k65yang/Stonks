@@ -26,7 +26,6 @@ public class Stock implements Writable {
         this.totalValue = value * quantity;
         this.quantity = quantity;
         valueTracker = new HashMap<>();
-
         valueTracker.put(purchaseDay, this.totalValue);
     }
 

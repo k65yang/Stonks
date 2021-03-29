@@ -38,6 +38,7 @@ public class StockMarketPageGUI extends StonksGUI {
         super();
         this.sm = stockMarket;
         this.investor = investor;
+        currentAction = "X";
         initializePageComponents();
         playBackgroundMusic();
     }
