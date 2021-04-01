@@ -39,6 +39,7 @@ public class Investor implements Writable {
     public void addFundsToPortfolio(String name, double amount) {
         Portfolio toAdd = portfolioMap.get(name);
         toAdd.addFunds(amount);
+        funds -= amount;
     }
 
     // REQUIRES: the portfolio must be empty (ie. have no stocks)
