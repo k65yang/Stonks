@@ -35,3 +35,10 @@ The following are some hypothetical user stories of this application.
 - As a user, I would like to save my progress. In other words, I want to be able to store my invsestor profile (inculding portfolio, stocks, stock market state) before I close out of the app. Data persistance has been implemented in this lab such that progress can be stored in a JSON file.
 
 - As a user, I want to be able to load an investor profile that I have saved so I do not have to restart every time I open this application. This program has the funcationality to read saved JSON files and load the profile from the point which I saved, so that I can continue making money!
+
+### Phase 4: Task 2
+A map interface was implemented in several of my classes.
+
+- In the Investor class, a HashMap<String, Portfolio> was used to track my different portfolios by a string (portfolio name).
+- In the Portfolio class, a HashMap<String, Stock> was used to track the various stocks contained within the portfolio by a string (stock name)
+- In the Stock class, a HashMap<Integer, Double> was used to track the value of a stock by the day (represented by an integer).
