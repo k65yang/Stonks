@@ -46,7 +46,7 @@ A map interface was implemented in several of my classes.
 ### Phase 4: Task 3
 The UML diagram for the major classes of this project is noted below.
 
-![Stonks! UML Diagram](https://github.students.cs.ubc.ca/CPSC210-2020W-T2/project_n1a0o/blob/master/UML_Design_Diagram.pdf)
+![Stonks! UML Diagram](https://github.students.cs.ubc.ca/CPSC210-2020W-T2/project_n1a0o/blob/master/UML_Design_Diagram.svg)
 
 From the UML diagram, it is obvious that there are issues with cohesion and also instances of unnecessary coupling. Some adjustments that I can intoduce in future versions of my application are noted as follows:
 
