@@ -44,6 +44,10 @@ A map interface was implemented in several of my classes.
 - In the Stock class, a HashMap<Integer, Double> was used to track the value of a stock by the day using a key/value pair of an Integer and Double object.
 
 ### Phase 4: Task 3
+The UML diagram for the major classes of this project is noted below.
+
+![Stonks! UML Diagram](https://github.students.cs.ubc.ca/CPSC210-2020W-T2/project_n1a0o/blob/master/UML_Design_Diagram.pdf)
+
 From the UML diagram, it is obvious that there are issues with cohesion and also instances of unnecessary coupling. Some adjustments that I can intoduce in future versions of my application are noted as follows:
 
 - The class StonksAppRunner and StonksGUI have a bi-directional association. However, the two classes themselves have fields (associations) for the Stockmarket and Investor class even through they are dealing with the same Stockmarket and Investor object. To reduce unnecessary coupling, the association to Stockmarket and Investor should be removed from the StonksAppRunner class. The bi-direction association between StonksAppRunner and StonksGUI ensure that StonksAppRunner still "knows" about the Stockmarket and Investor.
