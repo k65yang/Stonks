@@ -44,10 +44,12 @@ A map interface was implemented in several of my classes.
 - In the Stock class, a HashMap<Integer, Double> was used to track the value of a stock by the day using a key/value pair of an Integer and Double object.
 
 ### Phase 4: Task 3
-From the UML diagram, that there are issues with cohesion and also instances of unnecessary coupling. Some adjustments that I can intoduce in future versions of my application are noted as follows:
+From the UML diagram, it is obvious that there are issues with cohesion and also instances of unnecessary coupling. Some adjustments that I can intoduce in future versions of my application are noted as follows:
 
 - The class StonksAppRunner and StonksGUI have a bi-directional association. However, the two classes themselves have fields (associations) for the Stockmarket and Investor class even through they are dealing with the same Stockmarket and Investor object. To reduce unnecessary coupling, the association to Stockmarket and Investor should be removed from the StonksAppRunner class. The bi-direction association between StonksAppRunner and StonksGUI ensure that StonksAppRunner still "knows" about the Stockmarket and Investor.
 
 - PortfolioPageGUI has an association with a Portfolio object. However in the context of the diagram, it looks very strange; it doesn't make a whole lot of sense from a design prespective to have fields of StockMarket and Investor in the StonksGUI class, but have a Portfolio field standalone in a subclass of StonksGUI. Thus, the association to Portfolio should be moved to the StonksGUI class. 
 
 - Investor has two associations with Portfolio: a hashmap and a single field. Refactoring should be done so that there is only one association to Portfolio represented by a hashmap. 
+
+- Another issue that is not so obvious from this UML diagram is the idea of single point of control. The model classes themselves contain methods to load data from file, which is technically not the duty of the model classes. Rather, it should be the job of the JsonReader class to load data from file. All code related to loading from file should be refactored into the JsonReader class. In the process of refactoring, I expect that there will be additional single associations from JsonReader to the Stockmarket class and the Investor class. 
