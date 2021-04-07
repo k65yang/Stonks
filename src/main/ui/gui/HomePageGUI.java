@@ -106,7 +106,7 @@ public class HomePageGUI extends StonksGUI {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds the error lables onto the home page
+    // EFFECTS: adds the error labels onto the home page
     private void loadLabelsErrorLabels() {
         creationErrorLabel = new JLabel("");
         creationErrorLabel.setBounds(10, 210, 300, 20);
