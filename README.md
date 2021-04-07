@@ -40,7 +40,9 @@ The following are some hypothetical user stories of this application.
 A map interface was implemented in several of my classes.
 
 - In the Investor class, a HashMap<String, Portfolio> was used to track the different portfolios by using a key/value pair of a String and Portfolio object.
+
 - In the Portfolio class, a HashMap<String, Stock> was used to track the various stocks contained within the portfolio by using a key/value pair of a String and Stock object.
+
 - In the Stock class, a HashMap<Integer, Double> was used to track the value of a stock by the day using a key/value pair of an Integer and Double object.
 
 ### Phase 4: Task 3
